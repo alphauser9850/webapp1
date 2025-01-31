@@ -1,0 +1,30 @@
+[Unit]
+Description=WebApp1 Gunicorn Service
+After=network.target
+Wants=network.target
+
+[Service]
+Type=notify
+User=saif
+Group=saif
+RuntimeDirectory=webapp1
+WorkingDirectory=/home/saif/webapp1
+Environment="PATH=/home/saif/webapp1/venv/bin"
+Environment="PYTHONPATH=/home/saif/webapp1"
+ExecStart=/home/saif/webapp1/venv/bin/gunicorn -c gunicorn_config.py wsgi:app
+ExecReload=/bin/kill -s HUP $MAINPID
+KillMode=mixed
+TimeoutStopSec=5
+PrivateTmp=true
+
+# Logging
+StandardOutput=append:/var/log/webapp1/webapp1.log
+StandardError=append:/var/log/webapp1/webapp1.error.log
+
+# Security
+NoNewPrivileges=true
+ProtectSystem=full
+ProtectHome=read-only
+
+[Install]
+WantedBy=multi-user.target 

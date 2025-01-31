@@ -17,4 +17,14 @@ SQLAlchemy==2.0.21
 alembic==1.12.0
 email-validator==2.0.0.post2
 WTForms==3.0.1
-psutil==5.9.8 
+psutil==5.9.8
+urllib3==2.0.7
+click==8.1.7
+eventlet==0.33.3
+
+# Development dependencies
+pytest==7.4.3
+black==23.11.0
+flake8==6.1.0
+coverage==7.3.2
+pytest-cov==4.1.0 

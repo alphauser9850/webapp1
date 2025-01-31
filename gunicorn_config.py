@@ -1,31 +1,45 @@
 import multiprocessing
 
-# Bind to the socket
-bind = 'unix:/home/saif/webapp1/app.sock'
+# Binding
+bind = "unix:/tmp/webapp1.sock"  # Unix socket for Nginx to communicate with
+# bind = "0.0.0.0:8000"  # Alternatively, bind directly to a port
 
-# Number of workers
+# Worker Processes
 workers = multiprocessing.cpu_count() * 2 + 1
+worker_class = "eventlet"  # Using eventlet for async support
+worker_connections = 1000
 
-# Worker class
-worker_class = 'sync'  # You can change this to 'gevent' or 'eventlet' if needed
+# Timeout
+timeout = 120  # Increase timeout for long-running tasks
 
-# Timeout settings
-timeout = 30
+# Logging
+accesslog = "/var/log/webapp1/access.log"
+errorlog = "/var/log/webapp1/error.log"
+loglevel = "info"
 
-# Log level
-loglevel = 'info'
+# SSL (if not terminating SSL at nginx)
+# keyfile = "/path/to/keyfile"
+# certfile = "/path/to/certfile"
 
-# Access log file
-accesslog = '/home/saif/webapp1/logs/gunicorn-access.log'
+# Process Naming
+proc_name = "webapp1"
 
-# Error log file
-errorlog = '/home/saif/webapp1/logs/gunicorn-error.log'
+# Server Mechanics
+daemon = False  # Don't daemonize when running with systemd
+pidfile = "/tmp/webapp1.pid"
+umask = 0o007
+user = None  # Will be set by systemd service
+group = None  # Will be set by systemd service
 
-# Daemonize the Gunicorn process (if needed)
-# daemon = True
+# Server Hooks
+def on_starting(server):
+    """Called just before the master process is initialized."""
+    pass
 
-# Preload the application
-preload_app = True
+def on_reload(server):
+    """Called before code is reloaded."""
+    pass
 
-# Enable keep-alive
-keepalive = 5 
+def when_ready(server):
+    """Called just after the server is started."""
+    pass 
