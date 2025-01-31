@@ -6,7 +6,7 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     FLASK_APP=wsgi.py \
     FLASK_ENV=production \
-    PORT=8000
+    PORT=3000
 
 # Set work directory
 WORKDIR /app

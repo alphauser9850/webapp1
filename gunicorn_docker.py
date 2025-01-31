@@ -1,7 +1,7 @@
 import multiprocessing
 
 # Binding
-bind = "0.0.0.0:8000"  # Bind to all interfaces on port 8000
+bind = "0.0.0.0:3000"  # Bind to all interfaces on port 3000
 
 # Worker Processes
 workers = multiprocessing.cpu_count() * 2 + 1
