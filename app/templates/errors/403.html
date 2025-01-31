@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Access Forbidden{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-[#0A192F] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full text-center">
+        <div class="text-[#64FFDA] text-6xl mb-8">
+            <i class="fas fa-lock"></i>
+        </div>
+        <h1 class="text-4xl font-bold text-[#E6F1FF] mb-4">403</h1>
+        <p class="text-xl text-[#8892B0] mb-8">Access Forbidden</p>
+        <p class="text-[#8892B0] mb-8">You don't have permission to access this resource.</p>
+        <a href="{{ url_for('main.index') }}" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-[#0A192F] bg-[#64FFDA] hover:bg-[#64FFDA]/90">
+            <i class="fas fa-home mr-2"></i>
+            Return Home
+        </a>
+    </div>
+</div>
+{% endblock %} 

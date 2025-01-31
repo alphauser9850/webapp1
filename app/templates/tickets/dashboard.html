@@ -1,0 +1,183 @@
+{% extends "base.html" %}
+
+{% block title %}Support Dashboard{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="flex justify-between items-center mb-6">
+        <div>
+            <h1 class="text-4xl font-bold text-[#E6F1FF] mb-4">Support Dashboard</h1>
+            <div class="flex items-center gap-6">
+                <div class="flex items-center gap-2 text-[#8892B0]">
+                    <i class="fas fa-ticket-alt text-[#64FFDA]"></i>
+                    <span>{{ open_count }} Open</span>
+                </div>
+                <div class="flex items-center gap-2 text-[#8892B0]">
+                    <i class="fas fa-clock text-[#64FFDA]"></i>
+                    <span>{{ in_progress_count }} In Progress</span>
+                </div>
+                <div class="flex items-center gap-2 text-[#8892B0]">
+                    <i class="fas fa-check-circle text-[#64FFDA]"></i>
+                    <span>{{ resolved_count }} Resolved</span>
+                </div>
+            </div>
+        </div>
+        <button onclick="openNewTicketModal()" 
+                class="px-4 py-2 bg-[#64FFDA] text-[#0A192F] rounded-lg hover:bg-[#64FFDA]/90 transition-colors">
+            <i class="fas fa-plus mr-2"></i>New Ticket
+        </button>
+    </div>
+
+    <!-- Tickets List -->
+    <div class="bg-[#1B2B3A]/80 backdrop-blur-sm rounded-xl border border-[#2D4A5D] overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full">
+                    <thead>
+                    <tr class="text-left bg-[#233554]">
+                        <th class="px-6 py-3 text-sm font-medium text-[#8892B0]">ID</th>
+                        <th class="px-6 py-3 text-sm font-medium text-[#8892B0]">Subject</th>
+                            {% if current_user.is_admin %}
+                        <th class="px-6 py-3 text-sm font-medium text-[#8892B0]">User</th>
+                            {% endif %}
+                        <th class="px-6 py-3 text-sm font-medium text-[#8892B0]">Status</th>
+                        <th class="px-6 py-3 text-sm font-medium text-[#8892B0]">Priority</th>
+                        <th class="px-6 py-3 text-sm font-medium text-[#8892B0]">Last Updated</th>
+                        <th class="px-6 py-3 text-sm font-medium text-[#8892B0]">Actions</th>
+                        </tr>
+                    </thead>
+                <tbody class="divide-y divide-[#233554]">
+                        {% for ticket in tickets %}
+                    <tr class="hover:bg-[#233554]/50 transition-colors" data-ticket-id="{{ ticket.id }}">
+                        <td class="px-6 py-4 text-[#E6F1FF]">#{{ ticket.id }}</td>
+                        <td class="px-6 py-4">
+                            <a href="{{ url_for('tickets.view_ticket', ticket_id=ticket.id) }}" 
+                               class="text-[#64FFDA] hover:text-[#64FFDA]/80">
+                                    {{ ticket.subject }}
+                                {% if ticket.has_unread_messages %}
+                                <span class="ml-2 px-2 py-0.5 bg-red-500 text-white text-xs rounded-full">New</span>
+                                    {% endif %}
+                                </a>
+                            </td>
+                            {% if current_user.is_admin %}
+                        <td class="px-6 py-4 text-[#E6F1FF]">{{ ticket.user.username }}</td>
+                            {% endif %}
+                        <td class="px-6 py-4">
+                            <span class="px-2 py-1 text-xs rounded-full 
+                                       {% if ticket.status == 'open' %}bg-blue-500/10 text-blue-400
+                                       {% elif ticket.status == 'in_progress' %}bg-yellow-500/10 text-yellow-400
+                                       {% else %}bg-green-500/10 text-green-400{% endif %}">
+                                {{ ticket.status|replace('_', ' ')|title }}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="px-2 py-1 text-xs rounded-full 
+                                       {% if ticket.priority == 'high' %}bg-red-500/10 text-red-400
+                                       {% elif ticket.priority == 'medium' %}bg-yellow-500/10 text-yellow-400
+                                       {% else %}bg-blue-500/10 text-blue-400{% endif %}">
+                                {{ ticket.priority|title }}
+                            </span>
+                            </td>
+                        <td class="px-6 py-4 text-[#8892B0]">
+                            {{ ticket.updated_at.strftime('%Y-%m-%d %H:%M') }}
+                            </td>
+                        <td class="px-6 py-4">
+                            <a href="{{ url_for('tickets.view_ticket', ticket_id=ticket.id) }}" 
+                               class="text-[#64FFDA] hover:text-[#64FFDA]/80">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+        </div>
+    </div>
+</div>
+
+<!-- New Ticket Modal -->
+<div class="fixed inset-0 z-50 hidden" id="newTicketModal">
+    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md">
+        <div class="bg-[#1B2B3A] rounded-xl border border-[#2D4A5D] shadow-xl">
+            <div class="p-6">
+                <h3 class="text-lg font-semibold text-[#E6F1FF] mb-4">Create New Ticket</h3>
+                <form id="newTicketForm" class="space-y-4">
+                    {{ form.csrf_token }}
+                    <div>
+                        <label class="block text-sm font-medium text-[#E6F1FF] mb-2">Subject</label>
+                        <input type="text" name="subject" required
+                               class="w-full px-4 py-2 bg-[#233554] border border-[#2D4A5D] rounded-lg text-[#E6F1FF] focus:outline-none focus:border-[#64FFDA]">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-[#E6F1FF] mb-2">Priority</label>
+                        <select name="priority" required
+                                class="w-full px-4 py-2 bg-[#233554] border border-[#2D4A5D] rounded-lg text-[#E6F1FF] focus:outline-none focus:border-[#64FFDA]">
+                            <option value="low">Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high">High</option>
+                        </select>
+            </div>
+                    <div>
+                        <label class="block text-sm font-medium text-[#E6F1FF] mb-2">Message</label>
+                        <textarea name="message" rows="4" required
+                                  class="w-full px-4 py-2 bg-[#233554] border border-[#2D4A5D] rounded-lg text-[#E6F1FF] focus:outline-none focus:border-[#64FFDA]"></textarea>
+            </div>
+                </form>
+            </div>
+            <div class="flex justify-end space-x-3 px-6 py-4 bg-[#233554]/50 rounded-b-xl">
+                <button onclick="closeNewTicketModal()" 
+                        class="px-4 py-2 text-[#E6F1FF] hover:text-[#64FFDA] transition-colors">
+                    Cancel
+                </button>
+                <button onclick="submitNewTicket()"
+                        class="px-4 py-2 bg-[#64FFDA] text-[#0A192F] rounded-lg hover:bg-[#64FFDA]/90 transition-colors">
+                    Create Ticket
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function openNewTicketModal() {
+    document.getElementById('newTicketForm').reset();
+    document.getElementById('newTicketModal').classList.remove('hidden');
+}
+
+function closeNewTicketModal() {
+    document.getElementById('newTicketModal').classList.add('hidden');
+}
+
+function submitNewTicket() {
+    const form = document.getElementById('newTicketForm');
+    const formData = new FormData(form);
+    
+    fetch('/support/create', {
+                    method: 'POST',
+                    headers: {
+            'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+            'X-CSRFToken': document.querySelector('input[name="csrf_token"]').value
+        },
+        body: JSON.stringify(Object.fromEntries(formData)),
+        credentials: 'same-origin'
+    })
+    .then(response => {
+        if (!response.ok) throw new Error('Failed to create ticket');
+        return response.json();
+    })
+    .then(result => {
+        if (result.error) {
+            throw new Error(result.error);
+        }
+        location.reload();
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert(error.message || 'Error creating ticket. Please try again.');
+    });
+}
+</script>
+{% endblock %} 

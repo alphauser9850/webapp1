@@ -1,0 +1,234 @@
+{% extends "admin/layout.html" %}
+
+{% block title %}Manage Categories{% endblock %}
+
+{% block page_title %}Manage Categories{% endblock %}
+
+{% block admin_content %}
+<div class="flex justify-between items-center mb-6">
+    <div class="flex items-center space-x-4">
+        <div class="relative">
+            <input type="text" id="searchInput" placeholder="Search categories..." 
+                   class="pl-10 pr-4 py-2 bg-[#1B2B3A] border border-[#2D4A5D] rounded-lg text-[#E6F1FF] placeholder-[#8892B0] focus:outline-none focus:border-[#64FFDA]">
+            <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-[#8892B0]"></i>
+        </div>
+    </div>
+    <button onclick="openAddCategoryModal()" 
+            class="px-4 py-2 bg-[#64FFDA] text-[#0A192F] rounded-lg hover:bg-[#64FFDA]/90 transition-colors">
+        <i class="fas fa-plus mr-2"></i>Add Category
+    </button>
+</div>
+
+<!-- Categories Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {% for category in categories %}
+    <div class="bg-[#1B2B3A]/80 backdrop-blur-sm rounded-xl border border-[#2D4A5D] p-6 hover:transform hover:-translate-y-1 transition-all duration-300">
+        <div class="flex items-center justify-between mb-4">
+            <h3 class="text-lg font-medium text-[#E6F1FF]">{{ category.name }}</h3>
+            <div class="flex items-center space-x-3">
+                <button onclick="editCategory('{{ category.id }}')" class="text-[#64FFDA] hover:text-[#64FFDA]/80">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <button onclick="deleteCategory('{{ category.id }}')" class="text-red-400 hover:text-red-500">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+        </div>
+        <div class="space-y-3">
+            <p class="text-[#E6F1FF] text-sm flex items-center">
+                <i class="fas fa-layer-group text-[#64FFDA] mr-2"></i>Level: {{ category.level }}
+            </p>
+            <p class="text-[#E6F1FF] text-sm flex items-center">
+                <i class="fas fa-server text-[#64FFDA] mr-2"></i>{{ category.servers|length }} servers
+            </p>
+            <p class="text-[#E6F1FF] text-sm flex items-center">
+                <i class="fas fa-users text-[#64FFDA] mr-2"></i>{{ category.users|length }} users
+            </p>
+            <div class="mt-4 pt-4 border-t border-[#2D4A5D]">
+                <p class="text-[#E6F1FF] text-sm">{{ category.description }}</p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Add/Edit Category Modal -->
+<div class="fixed inset-0 z-50 hidden" id="categoryModal">
+    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md">
+        <div class="bg-[#1B2B3A] rounded-xl border border-[#2D4A5D] shadow-xl">
+            <div class="p-6">
+                <h3 class="text-lg font-semibold text-[#E6F1FF] mb-4" id="modalTitle">Add Category</h3>
+                <form id="categoryForm" class="space-y-4">
+                    {{ form.csrf_token }}
+                    <input type="hidden" name="category_id" id="categoryId">
+                    <div>
+                        <label class="block text-sm font-medium text-[#E6F1FF] mb-2">Name</label>
+                        <input type="text" name="name" required
+                               class="w-full px-4 py-2 bg-[#233554] border border-[#2D4A5D] rounded-lg text-[#E6F1FF] focus:outline-none focus:border-[#64FFDA]">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-[#E6F1FF] mb-2">Level</label>
+                        <input type="number" name="level" required min="1" max="10"
+                               class="w-full px-4 py-2 bg-[#233554] border border-[#2D4A5D] rounded-lg text-[#E6F1FF] focus:outline-none focus:border-[#64FFDA]">
+                        <p class="text-sm text-[#E6F1FF] mt-1">Level determines the order of categories (1-10)</p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-[#E6F1FF] mb-2">Description</label>
+                        <textarea name="description" rows="3"
+                                  class="w-full px-4 py-2 bg-[#233554] border border-[#2D4A5D] rounded-lg text-[#E6F1FF] focus:outline-none focus:border-[#64FFDA]"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="flex justify-end space-x-3 px-6 py-4 bg-[#233554]/50 rounded-b-xl">
+                <button onclick="closeCategoryModal()" 
+                        class="px-4 py-2 text-[#E6F1FF] hover:text-[#64FFDA] transition-colors">
+                    Cancel
+                </button>
+                <button onclick="submitCategoryForm()"
+                        class="px-4 py-2 bg-[#64FFDA] text-[#0A192F] rounded-lg hover:bg-[#64FFDA]/90 transition-colors">
+                    Save
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Get CSRF token from meta tag
+const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+function openAddCategoryModal() {
+    document.getElementById('modalTitle').textContent = 'Add Category';
+    document.getElementById('categoryForm').reset();
+    document.getElementById('categoryId').value = '';
+    document.getElementById('categoryModal').classList.remove('hidden');
+}
+
+function closeCategoryModal() {
+    document.getElementById('categoryModal').classList.add('hidden');
+}
+
+function editCategory(categoryId) {
+    fetch(`/admin/categories/${categoryId}`, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'X-CSRFToken': document.querySelector('input[name="csrf_token"]').value
+        },
+        credentials: 'same-origin'
+    })
+    .then(response => {
+        if (!response.ok) throw new Error('Failed to fetch category');
+        return response.json();
+    })
+    .then(category => {
+        document.getElementById('modalTitle').textContent = 'Edit Category';
+        document.getElementById('categoryId').value = category.id;
+        document.getElementById('categoryForm').elements['name'].value = category.name;
+        document.getElementById('categoryForm').elements['level'].value = category.level;
+        document.getElementById('categoryForm').elements['description'].value = category.description || '';
+        document.getElementById('categoryModal').classList.remove('hidden');
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error loading category. Please try again.');
+    });
+}
+
+function submitCategoryForm() {
+    const form = document.getElementById('categoryForm');
+    const categoryId = document.getElementById('categoryId').value;
+    const formData = new FormData(form);
+    
+    // Convert form data to JSON
+    const data = {};
+    formData.forEach((value, key) => {
+        if (key !== 'csrf_token') {  // Exclude CSRF token from body
+            data[key] = value;
+        }
+    });
+    
+    const url = categoryId ? `/admin/categories/${categoryId}/edit` : '/admin/categories/create';
+    const method = categoryId ? 'PUT' : 'POST';
+    
+    fetch(url, {
+        method: method,
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'X-CSRFToken': document.querySelector('input[name="csrf_token"]').value
+        },
+        body: JSON.stringify(data),
+        credentials: 'same-origin'
+    })
+    .then(response => {
+        if (!response.ok) throw new Error('Failed to save category');
+        return response.json();
+    })
+    .then(result => {
+        if (result.error) {
+            throw new Error(result.error);
+        }
+        closeCategoryModal();
+        location.reload();
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert(error.message || 'Error saving category. Please try again.');
+    });
+}
+
+function deleteCategory(categoryId) {
+    if (!confirm('Are you sure you want to delete this category? This will also remove all server assignments in this category.')) {
+        return;
+    }
+    
+    fetch(`/admin/categories/${categoryId}/delete`, {
+        method: 'DELETE',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'X-CSRFToken': document.querySelector('input[name="csrf_token"]').value
+        },
+        credentials: 'same-origin'
+    })
+    .then(response => {
+        if (!response.ok) throw new Error('Failed to delete category');
+        return response.json();
+    })
+    .then(result => {
+        if (result.error) {
+            throw new Error(result.error);
+        }
+        location.reload();
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert(error.message || 'Error deleting category. Please try again.');
+    });
+}
+
+// Initialize search
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('searchInput');
+    
+    function filterCategories() {
+        const searchTerm = searchInput.value.toLowerCase();
+        const categories = document.querySelectorAll('.grid > div');
+        
+        categories.forEach(category => {
+            const name = category.querySelector('h3').textContent.toLowerCase();
+            const description = category.querySelector('.border-t p')?.textContent.toLowerCase() || '';
+            
+            const matches = name.includes(searchTerm) || description.includes(searchTerm);
+            category.style.display = matches ? '' : 'none';
+        });
+    }
+    
+    searchInput.addEventListener('input', filterCategories);
+});
+</script>
+{% endblock %} 

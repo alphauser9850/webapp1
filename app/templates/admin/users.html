@@ -1,0 +1,501 @@
+{% extends "admin/layout.html" %}
+
+{% block title %}Manage Users{% endblock %}
+
+{% block page_title %}Manage Users{% endblock %}
+
+{% block admin_content %}
+<div class="flex justify-between items-center mb-6">
+    <div class="flex items-center space-x-4">
+        <div class="relative">
+            <input type="text" id="searchInput" placeholder="Search users..." 
+                   class="pl-10 pr-4 py-2 bg-[#1B2B3A] border border-[#2D4A5D] rounded-lg text-[#E6F1FF] placeholder-[#8892B0] focus:outline-none focus:border-[#64FFDA]">
+            <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-[#8892B0]"></i>
+        </div>
+        <select id="roleFilter" class="px-4 py-2 bg-[#1B2B3A] border border-[#2D4A5D] rounded-lg text-[#E6F1FF] focus:outline-none focus:border-[#64FFDA]">
+            <option value="all">All Roles</option>
+            <option value="admin">Admin</option>
+            <option value="user">User</option>
+        </select>
+        <select id="statusFilter" class="px-4 py-2 bg-[#1B2B3A] border border-[#2D4A5D] rounded-lg text-[#E6F1FF] focus:outline-none focus:border-[#64FFDA]">
+            <option value="all">All Status</option>
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+        </select>
+    </div>
+    <button onclick="openAddUserModal()" 
+            class="px-4 py-2 bg-[#64FFDA] text-[#0A192F] rounded-lg hover:bg-[#64FFDA]/90 transition-colors">
+        <i class="fas fa-plus mr-2"></i>Add User
+                    </button>
+                </div>
+
+<!-- Users Table -->
+<div class="bg-[#1B2B3A]/80 backdrop-blur-sm rounded-xl border border-[#2D4A5D] overflow-hidden">
+    <div class="overflow-x-auto">
+        <table class="w-full">
+                            <thead>
+                <tr class="border-b border-[#2D4A5D] text-[#8892B0] text-sm">
+                    <th class="px-6 py-3 text-left">Username</th>
+                    <th class="px-6 py-3 text-left">Email</th>
+                    <th class="px-6 py-3 text-left">Role</th>
+                    <th class="px-6 py-3 text-left">Status</th>
+                    <th class="px-6 py-3 text-left">Hours</th>
+                    <th class="px-6 py-3 text-left">Last Login</th>
+                    <th class="px-6 py-3 text-left">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for user in users %}
+                <tr class="border-b border-[#2D4A5D] text-sm hover:bg-[#233554]/50 transition-colors">
+                    <td class="px-6 py-4 text-[#E6F1FF]">{{ user.username }}</td>
+                    <td class="px-6 py-4 text-[#E6F1FF]">{{ user.email }}</td>
+                    <td class="px-6 py-4">
+                        <span class="px-2 py-1 text-xs rounded-full {% if user.is_admin %}bg-purple-500/10 text-purple-400{% else %}bg-blue-500/10 text-blue-400{% endif %}">
+                            {{ "Admin" if user.is_admin else "User" }}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4">
+                        <span class="px-2 py-1 text-xs rounded-full {% if user.is_active %}bg-green-500/10 text-green-400{% else %}bg-red-500/10 text-red-400{% endif %}">
+                            {{ "Active" if user.is_active else "Inactive" }}
+                        </span>
+                                    </td>
+                    <td class="px-6 py-4 text-[#E6F1FF]">{{ "%.1f"|format(user.remaining_hours) }}</td>
+                    <td class="px-6 py-4 text-[#E6F1FF]">
+                        {{ user.last_login.strftime('%Y-%m-%d %H:%M') if user.last_login else "Never" }}
+                                    </td>
+                    <td class="px-6 py-4">
+                        <div class="flex items-center space-x-3">
+                            <button onclick="editUser('{{ user.id }}')" class="text-[#64FFDA] hover:text-[#64FFDA]/80" title="Edit User">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                            <button onclick="addHours('{{ user.id }}')" class="text-[#64FFDA] hover:text-[#64FFDA]/80" title="Add Hours">
+                                                <i class="fas fa-clock"></i>
+                                            </button>
+                            <button onclick="openAssignServersModal('{{ user.id }}')" class="text-[#64FFDA] hover:text-[#64FFDA]/80" title="Assign Servers">
+                                                <i class="fas fa-server"></i>
+                                            </button>
+                            <button onclick="toggleUserStatus('{{ user.id }}')" class="text-[#64FFDA] hover:text-[#64FFDA]/80" title="{{ 'Deactivate' if user.is_active else 'Activate' }} User">
+                                <i class="fas {% if user.is_active %}fa-ban{% else %}fa-check{% endif %}"></i>
+                                            </button>
+                                            {% if not user.is_admin %}
+                            <button onclick="deleteUser('{{ user.id }}')" class="text-red-400 hover:text-red-500" title="Delete User">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                            {% endif %}
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+    </div>
+</div>
+
+<!-- Add/Edit User Modal -->
+<div class="fixed inset-0 z-50 hidden" id="userModal">
+    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md">
+        <div class="bg-[#1B2B3A] rounded-xl border border-[#2D4A5D] shadow-xl">
+            <div class="p-6">
+                <h3 class="text-lg font-semibold text-[#E6F1FF] mb-4" id="modalTitle">Add User</h3>
+                <form id="userForm" onsubmit="submitUserForm(event)" data-action="create">
+                    {{ form.csrf_token }}
+                    <input type="hidden" name="user_id" id="userId">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-[#E6F1FF] mb-2">Username</label>
+                            <input type="text" name="username" id="username" required
+                                   class="w-full px-4 py-2 bg-[#233554] border border-[#2D4A5D] rounded-lg text-[#E6F1FF] focus:outline-none focus:border-[#64FFDA]">
+            </div>
+                        <div>
+                            <label class="block text-sm font-medium text-[#E6F1FF] mb-2">Email</label>
+                            <input type="email" name="email" id="email" required
+                                   class="w-full px-4 py-2 bg-[#233554] border border-[#2D4A5D] rounded-lg text-[#E6F1FF] focus:outline-none focus:border-[#64FFDA]">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-[#E6F1FF] mb-2">Password</label>
+                            <input type="password" name="password" id="password" required
+                                   class="w-full px-4 py-2 bg-[#233554] border border-[#2D4A5D] rounded-lg text-[#E6F1FF] focus:outline-none focus:border-[#64FFDA]">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-[#E6F1FF] mb-2">Remaining Hours</label>
+                            <input type="number" name="remaining_hours" id="remaining_hours" value="0" min="0" step="0.5"
+                                   class="w-full px-4 py-2 bg-[#233554] border border-[#2D4A5D] rounded-lg text-[#E6F1FF] focus:outline-none focus:border-[#64FFDA]">
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <label class="flex items-center">
+                                <input type="checkbox" name="is_active" id="is_active" checked
+                                       class="form-checkbox bg-[#233554] border-[#2D4A5D] text-[#64FFDA] rounded focus:ring-[#64FFDA]">
+                                <span class="ml-2 text-sm text-[#E6F1FF]">Active</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" name="is_admin" id="is_admin"
+                                       class="form-checkbox bg-[#233554] border-[#2D4A5D] text-[#64FFDA] rounded focus:ring-[#64FFDA]">
+                                <span class="ml-2 text-sm text-[#E6F1FF]">Admin</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="flex justify-end space-x-3 mt-6">
+                        <button type="button" onclick="closeModal('userModal')"
+                                class="px-4 py-2 text-[#E6F1FF] hover:text-[#64FFDA] transition-colors">
+                            Cancel
+                        </button>
+                        <button type="submit"
+                                class="px-4 py-2 bg-[#64FFDA] text-[#0A192F] rounded-lg hover:bg-[#64FFDA]/90 transition-colors">
+                            Save
+                        </button>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Hours Modal -->
+<div class="fixed inset-0 z-50 hidden" id="hoursModal">
+    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md">
+        <div class="bg-[#1B2B3A] rounded-xl border border-[#2D4A5D] shadow-xl">
+            <div class="p-6">
+                <h3 class="text-lg font-semibold text-[#E6F1FF] mb-4">Add Hours</h3>
+                <form id="hoursForm" class="space-y-4">
+                    <input type="hidden" name="user_id" id="hoursUserId">
+                    <div>
+                        <label class="block text-sm font-medium text-[#E6F1FF] mb-2">Current Balance</label>
+                        <div class="flex items-center space-x-2">
+                            <div class="flex-1 px-4 py-2 bg-[#233554] border border-[#2D4A5D] rounded-lg text-[#E6F1FF]">
+                                <span id="currentHours">0.0</span> hours
+                </div>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-[#E6F1FF] mb-2">Hours to Add</label>
+                        <input type="number" name="hours" required min="0.5" step="0.5"
+                               class="w-full px-4 py-2 bg-[#233554] border border-[#2D4A5D] rounded-lg text-[#E6F1FF] focus:outline-none focus:border-[#64FFDA]">
+                        <p class="text-sm text-[#E6F1FF] mt-1">You can add hours in increments of 0.5 (30 minutes)</p>
+                    </div>
+                </form>
+                </div>
+            <div class="flex justify-end space-x-3 px-6 py-4 bg-[#233554]/50 rounded-b-xl">
+                <button onclick="closeHoursModal()" 
+                        class="px-4 py-2 text-[#E6F1FF] hover:text-[#64FFDA] transition-colors">
+                    Cancel
+                    </button>
+                <button onclick="submitHoursForm()"
+                        class="px-4 py-2 bg-[#64FFDA] text-[#0A192F] rounded-lg hover:bg-[#64FFDA]/90 transition-colors">
+                    Add Hours
+                    </button>
+                </div>
+        </div>
+    </div>
+</div>
+
+<!-- Assign Servers Modal -->
+<div class="fixed inset-0 z-50 hidden" id="assignServersModal">
+    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md">
+        <div class="bg-[#1B2B3A] rounded-xl border border-[#2D4A5D] shadow-xl">
+            <div class="p-6">
+                <h3 class="text-lg font-semibold text-[#E6F1FF] mb-4">Assign Servers</h3>
+                <form id="assignServersForm" class="space-y-4">
+                    <input type="hidden" name="user_id" id="serversUserId">
+                    <div class="space-y-4 max-h-96 overflow-y-auto">
+                        {% for category in categories %}
+                        <div class="bg-[#233554]/50 rounded-lg p-4">
+                            <h4 class="text-[#E6F1FF] font-medium mb-3">{{ category.name }}</h4>
+                            <div class="space-y-2">
+                            {% for server in category.servers %}
+                                <label class="flex items-center space-x-3">
+                                    <input type="checkbox" name="server_ids" value="{{ server.id }}"
+                                           class="form-checkbox bg-[#233554] border-[#2D4A5D] text-[#64FFDA] rounded focus:ring-[#64FFDA]">
+                                    <span class="text-sm text-[#E6F1FF]">{{ server.name }} ({{ server.connection_address }})</span>
+                                </label>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </form>
+                </div>
+            <div class="flex justify-end space-x-3 px-6 py-4 bg-[#233554]/50 rounded-b-xl">
+                <button onclick="closeModal('assignServersModal')" 
+                        class="px-4 py-2 text-[#E6F1FF] hover:text-[#64FFDA] transition-colors">
+                    Cancel
+                </button>
+                <button onclick="submitAssignServersForm()"
+                        class="px-4 py-2 bg-[#64FFDA] text-[#0A192F] rounded-lg hover:bg-[#64FFDA]/90 transition-colors">
+                    Save Assignments
+                </button>
+                </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Get CSRF token from meta tag
+const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+function openAddUserModal() {
+    document.getElementById('modalTitle').textContent = 'Add User';
+    document.getElementById('userForm').reset();
+    document.getElementById('userId').value = '';
+    document.getElementById('userModal').classList.remove('hidden');
+}
+
+function closeModal(modalId) {
+    document.getElementById(modalId).classList.add('hidden');
+}
+
+function editUser(userId) {
+    fetch(`/admin/users/${userId}`)
+        .then(response => response.json())
+        .then(user => {
+            document.getElementById('modalTitle').textContent = 'Edit User';
+            document.getElementById('userId').value = user.id;
+            document.getElementById('username').value = user.username;
+            document.getElementById('email').value = user.email;
+            document.getElementById('remaining_hours').value = user.remaining_hours || 0;
+            document.getElementById('is_active').checked = user.is_active;
+            document.getElementById('is_admin').checked = user.is_admin;
+            document.getElementById('password').required = false;
+            document.getElementById('userModal').classList.remove('hidden');
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showNotification('Error loading user data', 'error');
+        });
+}
+
+function submitUserForm(event) {
+    event.preventDefault();
+    const form = event.target;
+    const formData = new FormData(form);
+    const userId = formData.get('user_id');
+    
+    const data = {
+        username: formData.get('username'),
+        email: formData.get('email'),
+        password: formData.get('password'),
+        is_active: form.querySelector('input[name="is_active"]').checked,
+        is_admin: form.querySelector('input[name="is_admin"]').checked,
+        remaining_hours: parseFloat(formData.get('remaining_hours')) || 0
+    };
+
+    if (userId && !data.password) {
+        delete data.password;
+    }
+
+    const url = userId ? `/admin/users/${userId}/edit` : '/admin/users/create';
+    const method = userId ? 'PUT' : 'POST';
+
+    fetch(url, {
+        method: method,
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.error) {
+            showNotification(result.error, 'error');
+        } else {
+            showNotification(result.message, 'success');
+            closeModal('userModal');
+            window.location.reload();
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showNotification('An error occurred while saving the user', 'error');
+    });
+}
+
+function addHours(userId) {
+    fetch(`/admin/users/${userId}`)
+        .then(response => response.json())
+        .then(user => {
+            document.getElementById('hoursUserId').value = user.id;
+            document.getElementById('currentHours').textContent = user.remaining_hours.toFixed(1);
+            document.getElementById('hoursModal').classList.remove('hidden');
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showNotification('Error loading user data', 'error');
+        });
+}
+
+function closeHoursModal() {
+    document.getElementById('hoursModal').classList.add('hidden');
+}
+
+function submitHoursForm() {
+    const form = document.getElementById('hoursForm');
+    const formData = new FormData(form);
+    const userId = formData.get('user_id');
+    const hours = parseFloat(formData.get('hours'));
+
+    if (!userId || isNaN(hours) || hours <= 0) {
+        showNotification('Please enter a valid number of hours', 'error');
+        return;
+    }
+
+    fetch(`/admin/users/${userId}/add-hours`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken
+        },
+        body: JSON.stringify({ hours: hours })
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.error) {
+            showNotification(result.error, 'error');
+        } else {
+            showNotification(result.message, 'success');
+            closeModal('hoursModal');
+            window.location.reload();
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showNotification('Error adding hours', 'error');
+    });
+}
+
+function openAssignServersModal(userId) {
+    fetch(`/admin/users/${userId}`)
+        .then(response => response.json())
+        .then(user => {
+            document.getElementById('serversUserId').value = user.id;
+            // Clear all checkboxes first
+            document.querySelectorAll('input[name="server_ids"]').forEach(checkbox => {
+                checkbox.checked = false;
+            });
+            // Check boxes for assigned servers
+            if (user.assigned_servers) {
+                user.assigned_servers.forEach(serverId => {
+                    const checkbox = document.querySelector(`input[name="server_ids"][value="${serverId}"]`);
+                    if (checkbox) checkbox.checked = true;
+                });
+            }
+            document.getElementById('assignServersModal').classList.remove('hidden');
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showNotification('Error loading user data', 'error');
+        });
+}
+
+function submitAssignServersForm() {
+    const form = document.getElementById('assignServersForm');
+    const userId = document.getElementById('serversUserId').value;
+    const formData = new FormData(form);
+    
+    const data = {
+        server_ids: Array.from(formData.getAll('server_ids')).map(id => parseInt(id))
+    };
+    
+    fetch(`/admin/users/${userId}/assign-servers`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.error) {
+            showNotification(result.error, 'error');
+        } else {
+            showNotification(result.message, 'success');
+            closeModal('assignServersModal');
+            window.location.reload();
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showNotification('Error assigning servers', 'error');
+    });
+}
+
+function toggleUserStatus(userId) {
+    if (confirm('Are you sure you want to toggle this user\'s status?')) {
+        fetch(`/admin/users/${userId}/toggle-status`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrfToken
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                location.reload();
+            } else {
+                alert('Error toggling user status');
+            }
+        });
+    }
+}
+
+function deleteUser(userId) {
+    if (confirm('Are you sure you want to delete this user? This action cannot be undone.')) {
+        fetch(`/admin/users/${userId}`, {
+            method: 'DELETE',
+            headers: {
+                'X-CSRFToken': csrfToken
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                location.reload();
+            } else {
+                alert('Error deleting user');
+            }
+        });
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('searchInput');
+    const roleFilter = document.getElementById('roleFilter');
+    const statusFilter = document.getElementById('statusFilter');
+    
+    function filterTable() {
+        const searchTerm = searchInput.value.toLowerCase();
+        const roleValue = roleFilter.value;
+        const statusValue = statusFilter.value;
+        
+        const rows = document.querySelectorAll('tbody tr');
+        rows.forEach(row => {
+            const username = row.cells[0].textContent.toLowerCase();
+            const email = row.cells[1].textContent.toLowerCase();
+            const role = row.cells[2].textContent.trim();
+            const status = row.cells[3].textContent.trim();
+            
+            const matchesSearch = username.includes(searchTerm) || email.includes(searchTerm);
+            const matchesRole = roleValue === 'all' || role.toLowerCase() === roleValue;
+            const matchesStatus = statusValue === 'all' || status.toLowerCase() === statusValue;
+            
+            row.style.display = matchesSearch && matchesRole && matchesStatus ? '' : 'none';
+        });
+    }
+    
+    searchInput.addEventListener('input', filterTable);
+    roleFilter.addEventListener('change', filterTable);
+    statusFilter.addEventListener('change', filterTable);
+});
+
+function showNotification(message, type = 'success') {
+    const toast = document.createElement('div');
+    toast.className = `fixed bottom-4 right-4 px-6 py-3 rounded-lg text-white ${type === 'success' ? 'bg-green-500' : 'bg-red-500'} shadow-lg z-50`;
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 3000);
+}
+</script>
+{% endblock %} 

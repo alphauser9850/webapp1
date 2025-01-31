@@ -1,0 +1,18 @@
+{% macro render_message(message, current_user) %}
+<div class="message mb-3 {% if message.user_id == current_user.id %}text-end{% endif %}" data-message-id="{{ message.id }}">
+    {% if message.is_system_message %}
+    <div class="system-message text-center text-muted">
+        <small>{{ message.content }}</small>
+    </div>
+    {% else %}
+    <div class="message-content {% if message.user_id == current_user.id %}sent{% else %}received{% endif %}">
+        {{ message.content }}
+        <div class="message-meta">
+            <small class="text-muted">
+                {{ message.user.username }} - {{ message.created_at.strftime('%Y-%m-%d %H:%M:%S') }}
+            </small>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endmacro %} 

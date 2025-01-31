@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-[#0A192F] text-[#E6F1FF]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- User Welcome Section -->
+        <div class="mb-8">
+            <h1 class="text-4xl font-bold text-[#E6F1FF] mb-4">Welcome, {{ current_user.username }}</h1>
+            <div class="flex items-center gap-6 mb-8">
+                <div class="flex items-center gap-2 text-[#8892B0]">
+                    <i class="fas fa-clock"></i>
+                    <span>{{ "%.1f"|format(remaining_hours) }} hours remaining</span>
+                </div>
+                {% if active_session %}
+                <div class="flex items-center gap-2 text-green-400">
+                    <i class="fas fa-circle text-xs"></i>
+                    <span>Active Session</span>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Active Session Card -->
+        {% if active_session %}
+        <div class="mb-8 bg-[#1B2B3A]/80 backdrop-blur-sm rounded-xl border border-[#2D4A5D] p-6">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-semibold">Active Session</h3>
+                <a href="{{ url_for('main.session_detail', session_id=active_session.id) }}" 
+                   class="text-[#64FFDA] hover:text-[#64FFDA]/80">
+                    View Session
+                </a>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                    <p class="text-[#8892B0] text-sm">Server</p>
+                    <p class="text-[#E6F1FF]">{{ active_session.server.name }}</p>
+                </div>
+                <div>
+                    <p class="text-[#8892B0] text-sm">Started</p>
+                    <p class="text-[#E6F1FF]">{{ active_session.start_time.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+                </div>
+                <div>
+                    <p class="text-[#8892B0] text-sm">Category</p>
+                    <p class="text-[#E6F1FF]">{{ active_session.server.category.name }}</p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Lab Categories -->
+        <div class="mb-8">
+            <h2 class="text-2xl font-semibold mb-4">Available Lab Categories</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {% for category in categories %}
+                <div class="bg-[#1B2B3A]/80 backdrop-blur-sm rounded-xl border border-[#2D4A5D] hover:border-[#64FFDA]/50 transition-colors p-6">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="text-lg font-medium mb-1">{{ category.name }}</h3>
+                            <p class="text-sm text-[#8892B0]">{{ category.description or 'No description available' }}</p>
+                        </div>
+                        {% if category.level %}
+                        <span class="px-2 py-1 text-xs rounded-full bg-[#64FFDA]/10 text-[#64FFDA]">
+                            {{ category.level }}
+                        </span>
+                        {% endif %}
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm text-[#8892B0]">
+                            {{ category.servers|length }} Labs Available
+                        </span>
+                        <a href="{{ url_for('main.list_servers', category_id=category.id) }}" 
+                           class="inline-flex items-center text-[#64FFDA] hover:text-[#64FFDA]/80">
+                            <span>View Labs</span>
+                            <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Recent Sessions -->
+        {% if recent_sessions %}
+        <div>
+            <h2 class="text-2xl font-semibold mb-4">Recent Sessions</h2>
+            <div class="bg-[#1B2B3A]/80 backdrop-blur-sm rounded-xl border border-[#2D4A5D] overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="text-left bg-[#233554]">
+                                <th class="px-6 py-3 text-sm font-medium text-[#8892B0]">Server</th>
+                                <th class="px-6 py-3 text-sm font-medium text-[#8892B0]">Started</th>
+                                <th class="px-6 py-3 text-sm font-medium text-[#8892B0]">Duration</th>
+                                <th class="px-6 py-3 text-sm font-medium text-[#8892B0]">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-[#233554]">
+                            {% for session in recent_sessions %}
+                            <tr class="hover:bg-[#233554]/50 transition-colors">
+                                <td class="px-6 py-4">{{ session.server.name }}</td>
+                                <td class="px-6 py-4">{{ session.start_time.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                                <td class="px-6 py-4">
+                                    {% if session.end_time %}
+                                        {{ ((session.end_time - session.start_time).total_seconds() / 3600)|round(2) }} hours
+                                    {% else %}
+                                        Active
+                                    {% endif %}
+                                </td>
+                                <td class="px-6 py-4">
+                                    {% if session.is_active %}
+                                    <span class="px-2 py-1 text-xs rounded-full bg-green-500/10 text-green-400">Active</span>
+                                    {% else %}
+                                    <span class="px-2 py-1 text-xs rounded-full bg-[#233554] text-[#8892B0]">Completed</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %} 

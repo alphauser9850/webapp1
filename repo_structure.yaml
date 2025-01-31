@@ -1,0 +1,813 @@
+  - path: /gunicorn_config.py
+    type: file
+  - path: /app
+    type: directory
+    contents:
+    - path: /app/events.py
+      type: file
+    - path: /app/scripts
+      type: directory
+      contents:
+    - path: /app/models
+      type: directory
+      contents:
+      - path: /app/models/category.py
+        type: file
+      - path: /app/models/user.py
+        type: file
+      - path: /app/models/guacamole.py
+        type: file
+      - path: /app/models/session.py
+        type: file
+      - path: /app/models/__init__.py
+        type: file
+      - path: /app/models/ssh_device.py
+        type: file
+      - path: /app/models/physical_server.py
+        type: file
+      - path: /app/models/announcement.py
+        type: file
+      - path: /app/models/server.py
+        type: file
+      - path: /app/models/ticket.py
+        type: file
+    - path: /app/routes
+      type: directory
+      contents:
+      - path: /app/routes/network_admin.py
+        type: file
+      - path: /app/routes/labs.py
+        type: file
+      - path: /app/routes/admin.py
+        type: file
+      - path: /app/routes/__init__.py
+        type: file
+      - path: /app/routes/tickets.py
+        type: file
+      - path: /app/routes/auth.py
+        type: file
+      - path: /app/routes/main.py
+        type: file
+    - path: /app/__init__.py
+      type: file
+    - path: /app/static
+      type: directory
+      contents:
+      - path: /app/static/novnc
+        type: directory
+        contents:
+        - path: /app/static/novnc/core
+          type: directory
+          contents:
+          - path: /app/static/novnc/core/ra2.js
+            type: file
+          - path: /app/static/novnc/core/util
+            type: directory
+            contents:
+            - path: /app/static/novnc/core/util/events.js
+              type: file
+            - path: /app/static/novnc/core/util/strings.js
+              type: file
+            - path: /app/static/novnc/core/util/browser.js
+              type: file
+            - path: /app/static/novnc/core/util/cursor.js
+              type: file
+            - path: /app/static/novnc/core/util/eventtarget.js
+              type: file
+            - path: /app/static/novnc/core/util/element.js
+              type: file
+            - path: /app/static/novnc/core/util/logging.js
+              type: file
+            - path: /app/static/novnc/core/util/int.js
+              type: file
+          - path: /app/static/novnc/core/input
+            type: directory
+            contents:
+            - path: /app/static/novnc/core/input/util.js
+              type: file
+            - path: /app/static/novnc/core/input/keyboard.js
+              type: file
+            - path: /app/static/novnc/core/input/keysym.js
+              type: file
+            - path: /app/static/novnc/core/input/keysymdef.js
+              type: file
+            - path: /app/static/novnc/core/input/fixedkeys.js
+              type: file
+            - path: /app/static/novnc/core/input/gesturehandler.js
+              type: file
+            - path: /app/static/novnc/core/input/xtscancodes.js
+              type: file
+            - path: /app/static/novnc/core/input/vkeys.js
+              type: file
+            - path: /app/static/novnc/core/input/domkeytable.js
+              type: file
+          - path: /app/static/novnc/core/deflator.js
+            type: file
+          - path: /app/static/novnc/core/display.js
+            type: file
+          - path: /app/static/novnc/core/decoders
+            type: directory
+            contents:
+            - path: /app/static/novnc/core/decoders/rre.js
+              type: file
+            - path: /app/static/novnc/core/decoders/tightpng.js
+              type: file
+            - path: /app/static/novnc/core/decoders/h264.js
+              type: file
+            - path: /app/static/novnc/core/decoders/zlib.js
+              type: file
+            - path: /app/static/novnc/core/decoders/tight.js
+              type: file
+            - path: /app/static/novnc/core/decoders/copyrect.js
+              type: file
+            - path: /app/static/novnc/core/decoders/hextile.js
+              type: file
+            - path: /app/static/novnc/core/decoders/raw.js
+              type: file
+            - path: /app/static/novnc/core/decoders/zrle.js
+              type: file
+            - path: /app/static/novnc/core/decoders/jpeg.js
+              type: file
+          - path: /app/static/novnc/core/inflator.js
+            type: file
+          - path: /app/static/novnc/core/crypto
+            type: directory
+            contents:
+            - path: /app/static/novnc/core/crypto/des.js
+              type: file
+            - path: /app/static/novnc/core/crypto/crypto.js
+              type: file
+            - path: /app/static/novnc/core/crypto/bigint.js
+              type: file
+            - path: /app/static/novnc/core/crypto/rsa.js
+              type: file
+            - path: /app/static/novnc/core/crypto/aes.js
+              type: file
+            - path: /app/static/novnc/core/crypto/md5.js
+              type: file
+            - path: /app/static/novnc/core/crypto/dh.js
+              type: file
+          - path: /app/static/novnc/core/rfb.js
+            type: file
+          - path: /app/static/novnc/core/encodings.js
+            type: file
+          - path: /app/static/novnc/core/base64.js
+            type: file
+          - path: /app/static/novnc/core/websock.js
+            type: file
+      - path: /app/static/img
+        type: directory
+        contents:
+        - path: /app/static/img/brands
+          type: directory
+          contents:
+          - path: /app/static/img/brands/eve-ng-logo.png
+            type: file
+      - path: /app/static/sounds
+        type: directory
+        contents:
+        - path: /app/static/sounds/message.wav
+          type: file
+      - path: /app/static/uploads
+        type: directory
+        contents:
+      - path: /app/static/images
+        type: directory
+        contents:
+      - path: /app/static/js
+        type: directory
+        contents:
+        - path: /app/static/js/admin
+          type: directory
+          contents:
+          - path: /app/static/js/admin/server_monitor.js
+            type: file
+          - path: /app/static/js/admin/table_search.js
+            type: file
+        - path: /app/static/js/novnc
+          type: directory
+          contents:
+          - path: /app/static/js/novnc/rfb.min.js
+            type: file
+          - path: /app/static/js/novnc/rfb.js
+            type: file
+        - path: /app/static/js/tickets
+          type: directory
+          contents:
+          - path: /app/static/js/tickets/ticket-status.js
+            type: file
+          - path: /app/static/js/tickets/notifications.js
+            type: file
+        - path: /app/static/js/timer.js
+          type: file
+        - path: /app/static/js/payment.js
+          type: file
+      - path: /app/static/css
+        type: directory
+        contents:
+        - path: /app/static/css/style.css
+          type: file
+    - path: /app/models.py
+      type: file
+    - path: /app/cli.py
+      type: file
+    - path: /app/forms
+      type: directory
+      contents:
+      - path: /app/forms/tickets.py
+        type: file
+    - path: /app/auth.py
+      type: file
+    - path: /app/utils
+      type: directory
+      contents:
+      - path: /app/utils/guacamole.py
+        type: file
+      - path: /app/utils/crypto.py
+        type: file
+      - path: /app/utils/system_monitor.py
+        type: file
+      - path: /app/utils/logger.py
+        type: file
+      - path: /app/utils/server_utils.py
+        type: file
+      - path: /app/utils/decorators.py
+        type: file
+      - path: /app/utils/db_utils.py
+        type: file
+      - path: /app/utils/error_handlers.py
+        type: file
+      - path: /app/utils/server_monitor.py
+        type: file
+      - path: /app/utils/payment_handler.py
+        type: file
+    - path: /app/templates
+      type: directory
+      contents:
+      - path: /app/templates/admin
+        type: directory
+        contents:
+        - path: /app/templates/admin/dashboard.html
+          type: file
+        - path: /app/templates/admin/servers.html
+          type: file
+        - path: /app/templates/admin/_stats_cards.html
+          type: file
+        - path: /app/templates/admin/sessions.html
+          type: file
+        - path: /app/templates/admin/_sidebar.html
+          type: file
+        - path: /app/templates/admin/users.html
+          type: file
+        - path: /app/templates/admin/ssh_devices.html
+          type: file
+        - path: /app/templates/admin/infra
+          type: directory
+          contents:
+        - path: /app/templates/admin/network_administration.html
+          type: file
+        - path: /app/templates/admin/ssh_terminal.html
+          type: file
+        - path: /app/templates/admin/admin_dashboard.html
+          type: file
+        - path: /app/templates/admin/announcements.html
+          type: file
+        - path: /app/templates/admin/payments.html
+          type: file
+        - path: /app/templates/admin/categories.html
+          type: file
+      - path: /app/templates/auth
+        type: directory
+        contents:
+        - path: /app/templates/auth/register.html
+          type: file
+        - path: /app/templates/auth/login.html
+          type: file
+      - path: /app/templates/base.html
+        type: file
+      - path: /app/templates/tickets
+        type: directory
+        contents:
+        - path: /app/templates/tickets/dashboard.html
+          type: file
+        - path: /app/templates/tickets/_messages.html
+          type: file
+        - path: /app/templates/tickets/create.html
+          type: file
+        - path: /app/templates/tickets/view.html
+          type: file
+      - path: /app/templates/labs
+        type: directory
+        contents:
+        - path: /app/templates/labs/session.html
+          type: file
+      - path: /app/templates/macros
+        type: directory
+        contents:
+        - path: /app/templates/macros/forms.html
+          type: file
+      - path: /app/templates/home.html
+        type: file
+      - path: /app/templates/main
+        type: directory
+        contents:
+        - path: /app/templates/main/lab_session.html
+          type: file
+        - path: /app/templates/main/category_servers.html
+          type: file
+        - path: /app/templates/main/documentation.html
+          type: file
+        - path: /app/templates/main/user_dashboard.html
+          type: file
+        - path: /app/templates/main/purchase.html
+          type: file
+        - path: /app/templates/main/index.html
+          type: file
+      - path: /app/templates/includes
+        type: directory
+        contents:
+        - path: /app/templates/includes/_flash_updates.html
+          type: file
+        - path: /app/templates/includes/_announcements.html
+          type: file
+    - path: /app/errors.py
+      type: file
+  - path: /scripts
+    type: directory
+    contents:
+  - path: /wsgi.py
+    type: file
+  - path: /run.py
+    type: file
+  - path: /static
+    type: directory
+    contents:
+    - path: /static/sounds
+      type: directory
+      contents:
+    - path: /static/js
+      type: directory
+      contents:
+      - path: /static/js/timer.js
+        type: file
+    - path: /static/css
+      type: directory
+      contents:
+  - path: /myapp.wsgi
+    type: file
+  - path: /requirements.txt
+    type: file
+  - path: /migrations
+    type: directory
+    contents:
+    - path: /migrations/env.py
+      type: file
+    - path: /migrations/script.py.mako
+      type: file
+    - path: /migrations/alembic.ini
+      type: file
+    - path: /migrations/versions
+      type: directory
+      contents:
+      - path: /migrations/versions/991218d34d93_fix_session_table_name.py
+        type: file
+      - path: /migrations/versions/05460a2e79a4_add_difficulty_field_to_server_model.py
+        type: file
+      - path: /migrations/versions/3576059941f9_add_ticket_and_ticket_message_models.py
+        type: file
+      - path: /migrations/versions/1857e7e34693_add_is_super_admin_to_user_model.py
+        type: file
+      - path: /migrations/versions/b14d0d5b5c3d_initial_migration.py
+        type: file
+      - path: /migrations/versions/b7bc86b0565c_add_lab_tracking_models.py
+        type: file
+      - path: /migrations/versions/8b25d39ebcb8_add_is_superadmin_field_to_user_model.py
+        type: file
+      - path: /migrations/versions/8e3ef3980a81_add_sshdevice_model.py
+        type: file
+      - path: /migrations/versions/63762eaab507_add_announcement_model.py
+        type: file
+      - path: /migrations/versions/8ed92dc994bd_add_hours_allocated_column_to_session_.py
+        type: file
+      - path: /migrations/versions/2695f1e113be_update_vm_and_proxmox_relationships.py
+        type: file
+      - path: /migrations/versions/6f0f80681089_add_admin_viewed_column_to_tickets.py
+        type: file
+      - path: /migrations/versions/00ade52e0e63_add_guacamole_models.py
+        type: file
+    - path: /migrations/README
+      type: file
+  - path: /tests
+    type: directory
+    contents:
+    - path: /tests/__init__.py
+      type: file
+  - path: /BC
+    type: directory
+    contents:
+    - path: /BC/gunicorn_config.py
+      type: file
+    - path: /BC/app
+      type: directory
+      contents:
+      - path: /BC/app/events.py
+        type: file
+      - path: /BC/app/scripts
+        type: directory
+        contents:
+      - path: /BC/app/models
+        type: directory
+        contents:
+        - path: /BC/app/models/category.py
+          type: file
+        - path: /BC/app/models/user.py
+          type: file
+        - path: /BC/app/models/guacamole.py
+          type: file
+        - path: /BC/app/models/session.py
+          type: file
+        - path: /BC/app/models/__init__.py
+          type: file
+        - path: /BC/app/models/ssh_device.py
+          type: file
+        - path: /BC/app/models/physical_server.py
+          type: file
+        - path: /BC/app/models/announcement.py
+          type: file
+        - path: /BC/app/models/server.py
+          type: file
+        - path: /BC/app/models/ticket.py
+          type: file
+      - path: /BC/app/routes
+        type: directory
+        contents:
+        - path: /BC/app/routes/network_admin.py
+          type: file
+        - path: /BC/app/routes/labs.py
+          type: file
+        - path: /BC/app/routes/admin.py
+          type: file
+        - path: /BC/app/routes/__init__.py
+          type: file
+        - path: /BC/app/routes/tickets.py
+          type: file
+        - path: /BC/app/routes/auth.py
+          type: file
+        - path: /BC/app/routes/main.py
+          type: file
+      - path: /BC/app/__init__.py
+        type: file
+      - path: /BC/app/static
+        type: directory
+        contents:
+        - path: /BC/app/static/novnc
+          type: directory
+          contents:
+          - path: /BC/app/static/novnc/core
+            type: directory
+            contents:
+            - path: /BC/app/static/novnc/core/ra2.js
+              type: file
+            - path: /BC/app/static/novnc/core/util
+              type: directory
+              contents:
+              - path: /BC/app/static/novnc/core/util/events.js
+                type: file
+              - path: /BC/app/static/novnc/core/util/strings.js
+                type: file
+              - path: /BC/app/static/novnc/core/util/browser.js
+                type: file
+              - path: /BC/app/static/novnc/core/util/cursor.js
+                type: file
+              - path: /BC/app/static/novnc/core/util/eventtarget.js
+                type: file
+              - path: /BC/app/static/novnc/core/util/element.js
+                type: file
+              - path: /BC/app/static/novnc/core/util/logging.js
+                type: file
+              - path: /BC/app/static/novnc/core/util/int.js
+                type: file
+            - path: /BC/app/static/novnc/core/input
+              type: directory
+              contents:
+              - path: /BC/app/static/novnc/core/input/util.js
+                type: file
+              - path: /BC/app/static/novnc/core/input/keyboard.js
+                type: file
+              - path: /BC/app/static/novnc/core/input/keysym.js
+                type: file
+              - path: /BC/app/static/novnc/core/input/keysymdef.js
+                type: file
+              - path: /BC/app/static/novnc/core/input/fixedkeys.js
+                type: file
+              - path: /BC/app/static/novnc/core/input/gesturehandler.js
+                type: file
+              - path: /BC/app/static/novnc/core/input/xtscancodes.js
+                type: file
+              - path: /BC/app/static/novnc/core/input/vkeys.js
+                type: file
+              - path: /BC/app/static/novnc/core/input/domkeytable.js
+                type: file
+            - path: /BC/app/static/novnc/core/deflator.js
+              type: file
+            - path: /BC/app/static/novnc/core/display.js
+              type: file
+            - path: /BC/app/static/novnc/core/decoders
+              type: directory
+              contents:
+              - path: /BC/app/static/novnc/core/decoders/rre.js
+                type: file
+              - path: /BC/app/static/novnc/core/decoders/tightpng.js
+                type: file
+              - path: /BC/app/static/novnc/core/decoders/h264.js
+                type: file
+              - path: /BC/app/static/novnc/core/decoders/zlib.js
+                type: file
+              - path: /BC/app/static/novnc/core/decoders/tight.js
+                type: file
+              - path: /BC/app/static/novnc/core/decoders/copyrect.js
+                type: file
+              - path: /BC/app/static/novnc/core/decoders/hextile.js
+                type: file
+              - path: /BC/app/static/novnc/core/decoders/raw.js
+                type: file
+              - path: /BC/app/static/novnc/core/decoders/zrle.js
+                type: file
+              - path: /BC/app/static/novnc/core/decoders/jpeg.js
+                type: file
+            - path: /BC/app/static/novnc/core/inflator.js
+              type: file
+            - path: /BC/app/static/novnc/core/crypto
+              type: directory
+              contents:
+              - path: /BC/app/static/novnc/core/crypto/des.js
+                type: file
+              - path: /BC/app/static/novnc/core/crypto/crypto.js
+                type: file
+              - path: /BC/app/static/novnc/core/crypto/bigint.js
+                type: file
+              - path: /BC/app/static/novnc/core/crypto/rsa.js
+                type: file
+              - path: /BC/app/static/novnc/core/crypto/aes.js
+                type: file
+              - path: /BC/app/static/novnc/core/crypto/md5.js
+                type: file
+              - path: /BC/app/static/novnc/core/crypto/dh.js
+                type: file
+            - path: /BC/app/static/novnc/core/rfb.js
+              type: file
+            - path: /BC/app/static/novnc/core/encodings.js
+              type: file
+            - path: /BC/app/static/novnc/core/base64.js
+              type: file
+            - path: /BC/app/static/novnc/core/websock.js
+              type: file
+        - path: /BC/app/static/img
+          type: directory
+          contents:
+          - path: /BC/app/static/img/brands
+            type: directory
+            contents:
+            - path: /BC/app/static/img/brands/eve-ng-logo.png
+              type: file
+        - path: /BC/app/static/sounds
+          type: directory
+          contents:
+          - path: /BC/app/static/sounds/message.wav
+            type: file
+        - path: /BC/app/static/uploads
+          type: directory
+          contents:
+        - path: /BC/app/static/images
+          type: directory
+          contents:
+        - path: /BC/app/static/js
+          type: directory
+          contents:
+          - path: /BC/app/static/js/admin
+            type: directory
+            contents:
+            - path: /BC/app/static/js/admin/server_monitor.js
+              type: file
+            - path: /BC/app/static/js/admin/table_search.js
+              type: file
+          - path: /BC/app/static/js/novnc
+            type: directory
+            contents:
+            - path: /BC/app/static/js/novnc/rfb.min.js
+              type: file
+            - path: /BC/app/static/js/novnc/rfb.js
+              type: file
+          - path: /BC/app/static/js/tickets
+            type: directory
+            contents:
+            - path: /BC/app/static/js/tickets/ticket-status.js
+              type: file
+            - path: /BC/app/static/js/tickets/notifications.js
+              type: file
+          - path: /BC/app/static/js/timer.js
+            type: file
+          - path: /BC/app/static/js/payment.js
+            type: file
+        - path: /BC/app/static/css
+          type: directory
+          contents:
+          - path: /BC/app/static/css/style.css
+            type: file
+      - path: /BC/app/models.py
+        type: file
+      - path: /BC/app/cli.py
+        type: file
+      - path: /BC/app/forms
+        type: directory
+        contents:
+        - path: /BC/app/forms/tickets.py
+          type: file
+      - path: /BC/app/auth.py
+        type: file
+      - path: /BC/app/utils
+        type: directory
+        contents:
+        - path: /BC/app/utils/crypto.py
+          type: file
+        - path: /BC/app/utils/system_monitor.py
+          type: file
+        - path: /BC/app/utils/logger.py
+          type: file
+        - path: /BC/app/utils/server_utils.py
+          type: file
+        - path: /BC/app/utils/decorators.py
+          type: file
+        - path: /BC/app/utils/db_utils.py
+          type: file
+        - path: /BC/app/utils/error_handlers.py
+          type: file
+        - path: /BC/app/utils/server_monitor.py
+          type: file
+        - path: /BC/app/utils/payment_handler.py
+          type: file
+      - path: /BC/app/templates
+        type: directory
+        contents:
+        - path: /BC/app/templates/admin
+          type: directory
+          contents:
+          - path: /BC/app/templates/admin/dashboard.html
+            type: file
+          - path: /BC/app/templates/admin/servers.html
+            type: file
+          - path: /BC/app/templates/admin/_stats_cards.html
+            type: file
+          - path: /BC/app/templates/admin/sessions.html
+            type: file
+          - path: /BC/app/templates/admin/_sidebar.html
+            type: file
+          - path: /BC/app/templates/admin/users.html
+            type: file
+          - path: /BC/app/templates/admin/ssh_devices.html
+            type: file
+          - path: /BC/app/templates/admin/infra
+            type: directory
+            contents:
+          - path: /BC/app/templates/admin/network_administration.html
+            type: file
+          - path: /BC/app/templates/admin/ssh_terminal.html
+            type: file
+          - path: /BC/app/templates/admin/admin_dashboard.html
+            type: file
+          - path: /BC/app/templates/admin/announcements.html
+            type: file
+          - path: /BC/app/templates/admin/payments.html
+            type: file
+          - path: /BC/app/templates/admin/categories.html
+            type: file
+        - path: /BC/app/templates/auth
+          type: directory
+          contents:
+          - path: /BC/app/templates/auth/register.html
+            type: file
+          - path: /BC/app/templates/auth/login.html
+            type: file
+        - path: /BC/app/templates/base.html
+          type: file
+        - path: /BC/app/templates/tickets
+          type: directory
+          contents:
+          - path: /BC/app/templates/tickets/dashboard.html
+            type: file
+          - path: /BC/app/templates/tickets/_messages.html
+            type: file
+          - path: /BC/app/templates/tickets/create.html
+            type: file
+          - path: /BC/app/templates/tickets/view.html
+            type: file
+        - path: /BC/app/templates/labs
+          type: directory
+          contents:
+          - path: /BC/app/templates/labs/session.html
+            type: file
+        - path: /BC/app/templates/macros
+          type: directory
+          contents:
+          - path: /BC/app/templates/macros/forms.html
+            type: file
+        - path: /BC/app/templates/home.html
+          type: file
+        - path: /BC/app/templates/main
+          type: directory
+          contents:
+          - path: /BC/app/templates/main/lab_session.html
+            type: file
+          - path: /BC/app/templates/main/category_servers.html
+            type: file
+          - path: /BC/app/templates/main/documentation.html
+            type: file
+          - path: /BC/app/templates/main/user_dashboard.html
+            type: file
+          - path: /BC/app/templates/main/purchase.html
+            type: file
+          - path: /BC/app/templates/main/index.html
+            type: file
+        - path: /BC/app/templates/includes
+          type: directory
+          contents:
+          - path: /BC/app/templates/includes/_flash_updates.html
+            type: file
+          - path: /BC/app/templates/includes/_announcements.html
+            type: file
+      - path: /BC/app/errors.py
+        type: file
+    - path: /BC/scripts
+      type: directory
+      contents:
+    - path: /BC/wsgi.py
+      type: file
+    - path: /BC/run.py
+      type: file
+    - path: /BC/static
+      type: directory
+      contents:
+      - path: /BC/static/sounds
+        type: directory
+        contents:
+      - path: /BC/static/js
+        type: directory
+        contents:
+        - path: /BC/static/js/timer.js
+          type: file
+      - path: /BC/static/css
+        type: directory
+        contents:
+    - path: /BC/myapp.wsgi
+      type: file
+    - path: /BC/requirements.txt
+      type: file
+    - path: /BC/migrations
+      type: directory
+      contents:
+      - path: /BC/migrations/env.py
+        type: file
+      - path: /BC/migrations/script.py.mako
+        type: file
+      - path: /BC/migrations/alembic.ini
+        type: file
+      - path: /BC/migrations/versions
+        type: directory
+        contents:
+        - path: /BC/migrations/versions/991218d34d93_fix_session_table_name.py
+          type: file
+        - path: /BC/migrations/versions/05460a2e79a4_add_difficulty_field_to_server_model.py
+          type: file
+        - path: /BC/migrations/versions/3576059941f9_add_ticket_and_ticket_message_models.py
+          type: file
+        - path: /BC/migrations/versions/1857e7e34693_add_is_super_admin_to_user_model.py
+          type: file
+        - path: /BC/migrations/versions/b14d0d5b5c3d_initial_migration.py
+          type: file
+        - path: /BC/migrations/versions/b7bc86b0565c_add_lab_tracking_models.py
+          type: file
+        - path: /BC/migrations/versions/8b25d39ebcb8_add_is_superadmin_field_to_user_model.py
+          type: file
+        - path: /BC/migrations/versions/8e3ef3980a81_add_sshdevice_model.py
+          type: file
+        - path: /BC/migrations/versions/63762eaab507_add_announcement_model.py
+          type: file
+        - path: /BC/migrations/versions/8ed92dc994bd_add_hours_allocated_column_to_session_.py
+          type: file
+        - path: /BC/migrations/versions/2695f1e113be_update_vm_and_proxmox_relationships.py
+          type: file
+        - path: /BC/migrations/versions/6f0f80681089_add_admin_viewed_column_to_tickets.py
+          type: file
+      - path: /BC/migrations/README
+        type: file
+    - path: /BC/tests
+      type: directory
+      contents:
+      - path: /BC/tests/__init__.py
+        type: file
+    - path: /BC/repo_structure.yaml
+      type: file
+    - path: /BC/config.py
+      type: file
+  - path: /config.py
+    type: file

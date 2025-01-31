@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}Lab Session - {{ session.server.name }}{% endblock %}
+
+{% block head %}
+<style>
+    html, body { margin: 0; padding: 0; height: 100vh; overflow: hidden; }
+    #lab-container { position: fixed; top: 64px; left: 0; width: 100vw; height: calc(100vh - 64px); }
+    .error-container { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 0 20px rgba(0,0,0,0.2); text-align: center; max-width: 400px; }
+    #labFrame { z-index: 10; }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Lab Frame -->
+<div id="lab-container">
+    <iframe id="labFrame" 
+            src="https://{{ session.server.connection_address }}"
+            class="fixed inset-0 w-full h-full border-0"
+            allow="fullscreen *; clipboard-read; clipboard-write"
+            allowfullscreen="true"
+            webkitallowfullscreen="true"
+            mozallowfullscreen="true">
+    </iframe>
+</div>
+
+{% if message %}
+    <div class="alert alert-{{ category }}">
+        {{ message }}
+        <script>
+            setTimeout(() => window.location.href = "{{ url_for('main.dashboard') }}", 2000);
+        </script>
+    </div>
+{% endif %}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const timerDisplay = document.getElementById('sessionTimer');
+    if (!timerDisplay) return;
+    
+    // Calculate remaining time based on user's allocated hours and session start time
+    const startTime = new Date("{{ session.start_time.isoformat() }}");
+    const now = new Date();
+    const elapsedHours = (now - startTime) / (1000 * 60 * 60);
+    const remainingHours = {{ session.user.remaining_hours }} - elapsedHours;
+    const totalSeconds = Math.max(0, Math.floor(remainingHours * 3600));
+    let timeLeft = totalSeconds;
+    
+    function updateTimer() {
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            document.getElementById('navEndSessionForm').submit();
+            return;
+        }
+        
+        const hours = Math.floor(timeLeft / 3600);
+        const minutes = Math.floor((timeLeft % 3600) / 60);
+        const seconds = timeLeft % 60;
+        
+        timerDisplay.textContent = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        timeLeft--;
+    }
+    
+    updateTimer();
+    const timerInterval = setInterval(updateTimer, 1000);
+});
+
+// Prevent navigation away
+window.addEventListener('beforeunload', e => {
+    const timerDisplay = document.getElementById('sessionTimer');
+    if (timerDisplay && timerDisplay.textContent !== '--:--:--') {
+        e.preventDefault();
+        e.returnValue = 'You have an active session. Are you sure you want to leave? This will end your session.';
+    }
+});
+</script>
+{% endblock %}
