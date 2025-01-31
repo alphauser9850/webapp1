@@ -32,4 +32,4 @@ RUN mkdir -p /var/log/webapp1 && \
 EXPOSE $PORT
 
 # Command to run the application
-CMD gunicorn --worker-class eventlet -w 4 --bind 0.0.0.0:$PORT wsgi:app 
+CMD ["gunicorn", "--worker-class", "eventlet", "-w", "4", "--bind", "0.0.0.0:3000", "wsgi:app"] 
