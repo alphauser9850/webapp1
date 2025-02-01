@@ -1,0 +1,727 @@
+{% extends "base.html" %}
+
+{% block title %}Support Dashboard{% endblock %}
+
+{% block content %}
+<<<<<<< HEAD
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Support Dashboard</h1>
+        <div>
+            {% if current_user.is_admin %}
+            <button type="button" class="btn btn-danger me-2" data-bs-toggle="modal" data-bs-target="#clearHistoryModal">
+                <i class="fas fa-trash me-2"></i>Clear History
+            </button>
+            {% endif %}
+            <a href="{{ url_for('tickets.create_ticket') }}" class="btn btn-primary">
+                <i class="fas fa-plus me-2"></i>New Ticket
+            </a>
+        </div>
+    </div>
+
+    <!-- Status Cards -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card bg-light">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-primary mb-0">Open Tickets</h6>
+                            <h2 class="mb-0" id="open-count">{{ open_count }}</h2>
+                        </div>
+                        <i class="fas fa-ticket-alt fa-2x text-primary opacity-25"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-light">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-warning mb-0">In Progress</h6>
+                            <h2 class="mb-0" id="in-progress-count">{{ in_progress_count }}</h2>
+                        </div>
+                        <i class="fas fa-clock fa-2x text-warning opacity-25"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-light">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-success mb-0">Resolved</h6>
+                            <h2 class="mb-0" id="resolved-count">{{ resolved_count }}</h2>
+                        </div>
+                        <i class="fas fa-check-circle fa-2x text-success opacity-25"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tickets List -->
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center">
+                <h5 class="mb-0 me-3">{% if current_user.is_admin %}All Tickets{% else %}Your Tickets{% endif %}</h5>
+                <select class="form-select form-select-sm" id="ticketStatusFilter" style="width: auto;">
+                    <option value="active">Active Tickets</option>
+                    <option value="resolved">Resolved Tickets</option>
+                    <option value="all">All Tickets</option>
+                </select>
+            </div>
+            {% if current_user.is_admin %}
+            <div class="bulk-actions d-none">
+                <button type="button" class="btn btn-secondary btn-sm me-2" id="deselectAll">
+                    <i class="fas fa-times me-1"></i>Deselect All
+                </button>
+                <div class="dropdown d-inline-block">
+                    <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="bulkActionsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        Bulk Actions
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="bulkActionsDropdown">
+                        <li><a class="dropdown-item bulk-action" data-action="closed" href="#"><i class="fas fa-check-circle me-2"></i>Close Selected</a></li>
+                        <li><a class="dropdown-item bulk-action" data-action="in_progress" href="#"><i class="fas fa-clock me-2"></i>Mark In Progress</a></li>
+                        <li><a class="dropdown-item bulk-action" data-action="open" href="#"><i class="fas fa-envelope-open me-2"></i>Reopen</a></li>
+                    </ul>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        <div class="card-body">
+            {% if tickets %}
+            <div class="table-responsive">
+                <table class="table table-hover" id="tickets-table">
+                    <thead>
+                        <tr>
+                            {% if current_user.is_admin %}
+                            <th>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="selectAll">
+                                </div>
+                            </th>
+                            {% endif %}
+                            <th>ID</th>
+                            <th>Subject</th>
+                            {% if current_user.is_admin %}
+                            <th>User</th>
+                            {% endif %}
+                            <th>Status</th>
+                            <th>Priority</th>
+                            <th>Last Updated</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for ticket in tickets %}
+                        <tr data-ticket-id="{{ ticket.id }}">
+                            {% if current_user.is_admin %}
+                            <td>
+                                <div class="form-check">
+                                    <input class="form-check-input ticket-checkbox" type="checkbox" value="{{ ticket.id }}">
+                                </div>
+                            </td>
+                            {% endif %}
+                            <td>#{{ ticket.id }}</td>
+                            <td>
+                                <a href="{{ url_for('tickets.view_ticket', ticket_id=ticket.id) }}" class="text-decoration-none">
+                                    {{ ticket.subject }}
+                                    {% if ticket.messages.filter_by(is_read=False).filter(TicketMessage.user_id != current_user.id).count() > 0 %}
+                                    <span class="badge bg-danger">New</span>
+=======
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="flex justify-between items-center mb-6">
+        <div>
+            <h1 class="text-4xl font-bold text-[#E6F1FF] mb-4">Support Dashboard</h1>
+            <div class="flex items-center gap-6">
+                <div class="flex items-center gap-2 text-[#8892B0]">
+                    <i class="fas fa-ticket-alt text-[#64FFDA]"></i>
+                    <span>{{ open_count }} Open</span>
+                </div>
+                <div class="flex items-center gap-2 text-[#8892B0]">
+                    <i class="fas fa-clock text-[#64FFDA]"></i>
+                    <span>{{ in_progress_count }} In Progress</span>
+                </div>
+                <div class="flex items-center gap-2 text-[#8892B0]">
+                    <i class="fas fa-check-circle text-[#64FFDA]"></i>
+                    <span>{{ resolved_count }} Resolved</span>
+                </div>
+            </div>
+        </div>
+        <button onclick="openNewTicketModal()" 
+                class="px-4 py-2 bg-[#64FFDA] text-[#0A192F] rounded-lg hover:bg-[#64FFDA]/90 transition-colors">
+            <i class="fas fa-plus mr-2"></i>New Ticket
+        </button>
+    </div>
+
+    <!-- Tickets List -->
+    <div class="bg-[#1B2B3A]/80 backdrop-blur-sm rounded-xl border border-[#2D4A5D] overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full">
+                    <thead>
+                    <tr class="text-left bg-[#233554]">
+                        <th class="px-6 py-3 text-sm font-medium text-[#8892B0]">ID</th>
+                        <th class="px-6 py-3 text-sm font-medium text-[#8892B0]">Subject</th>
+                            {% if current_user.is_admin %}
+                        <th class="px-6 py-3 text-sm font-medium text-[#8892B0]">User</th>
+                            {% endif %}
+                        <th class="px-6 py-3 text-sm font-medium text-[#8892B0]">Status</th>
+                        <th class="px-6 py-3 text-sm font-medium text-[#8892B0]">Priority</th>
+                        <th class="px-6 py-3 text-sm font-medium text-[#8892B0]">Last Updated</th>
+                        <th class="px-6 py-3 text-sm font-medium text-[#8892B0]">Actions</th>
+                        </tr>
+                    </thead>
+                <tbody class="divide-y divide-[#233554]">
+                        {% for ticket in tickets %}
+                    <tr class="hover:bg-[#233554]/50 transition-colors" data-ticket-id="{{ ticket.id }}">
+                        <td class="px-6 py-4 text-[#E6F1FF]">#{{ ticket.id }}</td>
+                        <td class="px-6 py-4">
+                            <a href="{{ url_for('tickets.view_ticket', ticket_id=ticket.id) }}" 
+                               class="text-[#64FFDA] hover:text-[#64FFDA]/80">
+                                    {{ ticket.subject }}
+                                {% if ticket.has_unread_messages %}
+                                <span class="ml-2 px-2 py-0.5 bg-red-500 text-white text-xs rounded-full">New</span>
+>>>>>>> master
+                                    {% endif %}
+                                </a>
+                            </td>
+                            {% if current_user.is_admin %}
+<<<<<<< HEAD
+                            <td>{{ ticket.user.username }}</td>
+                            {% endif %}
+                            <td>
+                                <span class="badge bg-{{ ticket.status_color }}">{{ ticket.status.title() }}</span>
+                            </td>
+                            <td>
+                                <span class="badge bg-{{ ticket.priority_color }}">{{ ticket.priority.title() }}</span>
+                            </td>
+                            <td>{{ ticket.updated_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                            <td>
+                                <a href="{{ url_for('tickets.view_ticket', ticket_id=ticket.id) }}" class="btn btn-sm btn-primary">
+=======
+                        <td class="px-6 py-4 text-[#E6F1FF]">{{ ticket.user.username }}</td>
+                            {% endif %}
+                        <td class="px-6 py-4">
+                            <span class="px-2 py-1 text-xs rounded-full 
+                                       {% if ticket.status == 'open' %}bg-blue-500/10 text-blue-400
+                                       {% elif ticket.status == 'in_progress' %}bg-yellow-500/10 text-yellow-400
+                                       {% else %}bg-green-500/10 text-green-400{% endif %}">
+                                {{ ticket.status|replace('_', ' ')|title }}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="px-2 py-1 text-xs rounded-full 
+                                       {% if ticket.priority == 'high' %}bg-red-500/10 text-red-400
+                                       {% elif ticket.priority == 'medium' %}bg-yellow-500/10 text-yellow-400
+                                       {% else %}bg-blue-500/10 text-blue-400{% endif %}">
+                                {{ ticket.priority|title }}
+                            </span>
+                            </td>
+                        <td class="px-6 py-4 text-[#8892B0]">
+                            {{ ticket.updated_at.strftime('%Y-%m-%d %H:%M') }}
+                            </td>
+                        <td class="px-6 py-4">
+                            <a href="{{ url_for('tickets.view_ticket', ticket_id=ticket.id) }}" 
+                               class="text-[#64FFDA] hover:text-[#64FFDA]/80">
+>>>>>>> master
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+<<<<<<< HEAD
+            </div>
+            {% else %}
+            <div class="text-center py-5" id="no-tickets">
+                <i class="fas fa-ticket-alt fa-3x text-muted mb-3"></i>
+                <h5>No tickets found</h5>
+                <p class="text-muted">Create a new ticket to get support</p>
+                <a href="{{ url_for('tickets.create_ticket') }}" class="btn btn-primary">
+                    <i class="fas fa-plus me-2"></i>Create New Ticket
+                </a>
+            </div>
+            {% endif %}
+=======
+>>>>>>> master
+        </div>
+    </div>
+</div>
+
+<<<<<<< HEAD
+<!-- Clear History Modal -->
+{% if current_user.is_admin %}
+<div class="modal fade" id="clearHistoryModal" tabindex="-1" aria-labelledby="clearHistoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="clearHistoryModalLabel">Clear Ticket History</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="text-danger"><i class="fas fa-exclamation-triangle me-2"></i>Warning!</p>
+                <p>This action will permanently delete all closed tickets and their messages. This action cannot be undone.</p>
+                <p>Are you sure you want to proceed?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form action="{{ url_for('tickets.clear_history') }}" method="POST" class="d-inline">
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-trash me-2"></i>Clear History
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Message Sound -->
+<audio id="messageSound" preload="auto">
+    <source src="{{ url_for('static', filename='sounds/message.wav') }}" type="audio/wav">
+</audio>
+
+<!-- Toast Container -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3"></div>
+=======
+<!-- New Ticket Modal -->
+<div class="fixed inset-0 z-50 hidden" id="newTicketModal">
+    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md">
+        <div class="bg-[#1B2B3A] rounded-xl border border-[#2D4A5D] shadow-xl">
+            <div class="p-6">
+                <h3 class="text-lg font-semibold text-[#E6F1FF] mb-4">Create New Ticket</h3>
+                <form id="newTicketForm" class="space-y-4">
+                    {{ form.csrf_token }}
+                    <div>
+                        <label class="block text-sm font-medium text-[#E6F1FF] mb-2">Subject</label>
+                        <input type="text" name="subject" required
+                               class="w-full px-4 py-2 bg-[#233554] border border-[#2D4A5D] rounded-lg text-[#E6F1FF] focus:outline-none focus:border-[#64FFDA]">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-[#E6F1FF] mb-2">Priority</label>
+                        <select name="priority" required
+                                class="w-full px-4 py-2 bg-[#233554] border border-[#2D4A5D] rounded-lg text-[#E6F1FF] focus:outline-none focus:border-[#64FFDA]">
+                            <option value="low">Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high">High</option>
+                        </select>
+            </div>
+                    <div>
+                        <label class="block text-sm font-medium text-[#E6F1FF] mb-2">Message</label>
+                        <textarea name="message" rows="4" required
+                                  class="w-full px-4 py-2 bg-[#233554] border border-[#2D4A5D] rounded-lg text-[#E6F1FF] focus:outline-none focus:border-[#64FFDA]"></textarea>
+            </div>
+                </form>
+            </div>
+            <div class="flex justify-end space-x-3 px-6 py-4 bg-[#233554]/50 rounded-b-xl">
+                <button onclick="closeNewTicketModal()" 
+                        class="px-4 py-2 text-[#E6F1FF] hover:text-[#64FFDA] transition-colors">
+                    Cancel
+                </button>
+                <button onclick="submitNewTicket()"
+                        class="px-4 py-2 bg-[#64FFDA] text-[#0A192F] rounded-lg hover:bg-[#64FFDA]/90 transition-colors">
+                    Create Ticket
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+>>>>>>> master
+{% endblock %}
+
+{% block extra_js %}
+<script>
+<<<<<<< HEAD
+document.addEventListener('DOMContentLoaded', function() {
+    const socket = io();
+    const messageSound = document.getElementById('messageSound');
+    const ticketsTable = document.getElementById('tickets-table');
+    const noTickets = document.getElementById('no-tickets');
+    const openCount = document.getElementById('open-count');
+    const inProgressCount = document.getElementById('in-progress-count');
+    const resolvedCount = document.getElementById('resolved-count');
+
+    socket.on('connect', () => {
+        console.log('Connected to WebSocket');
+        socket.emit('join', { room: 'dashboard' });
+    });
+
+    function showToast(title, message) {
+        const toastContainer = document.querySelector('.toast-container');
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.setAttribute('role', 'alert');
+        toast.innerHTML = `
+            <div class="toast-header">
+                <i class="fas fa-bell text-primary me-2"></i>
+                <strong class="me-auto">${title}</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+            </div>
+            <div class="toast-body">${message}</div>
+        `;
+        toastContainer.appendChild(toast);
+        const bsToast = new bootstrap.Toast(toast);
+        bsToast.show();
+        toast.addEventListener('hidden.bs.toast', () => toast.remove());
+    }
+
+    function playNotificationSound() {
+        messageSound.currentTime = 0;
+        messageSound.play().catch(e => console.log('Error playing sound:', e));
+    }
+
+    function updateTicketRow(ticket) {
+        let row = ticketsTable?.querySelector(`tr[data-ticket-id="${ticket.id}"]`);
+        const tbody = ticketsTable?.querySelector('tbody');
+        
+        if (!row && tbody) {
+            // Create new row if ticket doesn't exist
+            row = document.createElement('tr');
+            row.setAttribute('data-ticket-id', ticket.id);
+            tbody.insertBefore(row, tbody.firstChild); // Add new tickets at the top
+        }
+
+        if (!row) return; // Exit if we couldn't find or create the row
+
+        const statusClass = {
+            'open': 'primary',
+            'in_progress': 'warning',
+            'closed': 'success'
+        }[ticket.status] || 'secondary';
+
+        const priorityClass = {
+            'high': 'danger',
+            'medium': 'warning',
+            'low': 'info'
+        }[ticket.priority] || 'secondary';
+
+        row.innerHTML = `
+            ${current_user.is_admin ? `
+            <td>
+                <div class="form-check">
+                    <input class="form-check-input ticket-checkbox" type="checkbox" value="${ticket.id}">
+                </div>
+            </td>
+            ` : ''}
+            <td>#${ticket.id}</td>
+            <td>
+                <a href="/support/ticket/${ticket.id}" class="text-decoration-none">
+                    ${ticket.subject}
+                    ${ticket.has_unread ? '<span class="badge bg-danger">New</span>' : ''}
+                </a>
+            </td>
+            ${current_user.is_admin ? `<td>${ticket.username}</td>` : ''}
+            <td><span class="badge bg-${statusClass}">${ticket.status.replace('_', ' ').title()}</span></td>
+            <td><span class="badge bg-${priorityClass}">${ticket.priority.title()}</span></td>
+            <td>${new Date(ticket.updated_at).toLocaleString()}</td>
+            <td>
+                <a href="/support/ticket/${ticket.id}" class="btn btn-sm btn-primary">
+                    <i class="fas fa-eye"></i>
+                </a>
+            </td>
+        `;
+
+        // Reattach event listener for the new checkbox
+        const checkbox = row.querySelector('.ticket-checkbox');
+        if (checkbox) {
+            checkbox.addEventListener('change', function() {
+                updateBulkActionsVisibility();
+                // Update select all checkbox
+                const allCheckboxes = document.querySelectorAll('.ticket-checkbox');
+                selectAll.checked = [...allCheckboxes].every(cb => cb.checked);
+            });
+        }
+
+        // Apply current filter
+        const currentFilter = statusFilter?.value || 'active';
+        const ticketStatus = ticket.status.toLowerCase();
+        if (currentFilter === 'active') {
+            row.style.display = (ticketStatus === 'open' || ticketStatus === 'in_progress') ? '' : 'none';
+        } else if (currentFilter === 'resolved') {
+            row.style.display = ticketStatus === 'closed' ? '' : 'none';
+        } else {
+            row.style.display = '';
+        }
+    }
+
+    socket.on('ticket_update', (data) => {
+        updateTicketRow(data.ticket);
+        showToast('Ticket Updated', `Ticket #${data.ticket.id} has been updated`);
+        playNotificationSound();
+    });
+
+    socket.on('new_ticket', (data) => {
+        const cardBody = document.querySelector('.card-body');
+        const noTicketsDiv = document.getElementById('no-tickets');
+        
+        if (!ticketsTable) {
+            // Create table if it doesn't exist
+            const tableHtml = `
+                <div class="table-responsive">
+                    <table class="table table-hover" id="tickets-table">
+                        <thead>
+                            <tr>
+                                ${current_user.is_admin ? `
+                                <th>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="selectAll">
+                                    </div>
+                                </th>
+                                ` : ''}
+                                <th>ID</th>
+                                <th>Subject</th>
+                                ${current_user.is_admin ? '<th>User</th>' : ''}
+                                <th>Status</th>
+                                <th>Priority</th>
+                                <th>Last Updated</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            `;
+            cardBody.innerHTML = tableHtml;
+            
+            // Update references
+            ticketsTable = document.getElementById('tickets-table');
+            
+            // Reattach select all event listener
+            const newSelectAll = document.getElementById('selectAll');
+            if (newSelectAll) {
+                newSelectAll.addEventListener('change', function() {
+                    const checkboxes = document.querySelectorAll('.ticket-checkbox');
+                    checkboxes.forEach(checkbox => {
+                        checkbox.checked = this.checked;
+                    });
+                    updateBulkActionsVisibility();
+                });
+            }
+        }
+
+        if (noTicketsDiv) {
+            noTicketsDiv.remove();
+        }
+
+        // Add the new ticket row
+        updateTicketRow(data);
+
+        // Update the ticket count
+        openCount.textContent = parseInt(openCount.textContent) + 1;
+
+        // Get current filter value and apply visibility
+        const currentFilter = statusFilter?.value || 'active';
+        const newRow = ticketsTable.querySelector(`tr[data-ticket-id="${data.id}"]`);
+        if (newRow) {
+            if (currentFilter === 'active') {
+                newRow.style.display = ''; // Show new tickets in active view
+            } else if (currentFilter === 'resolved') {
+                newRow.style.display = 'none'; // Hide new tickets in resolved view
+            } else {
+                newRow.style.display = ''; // Show in all tickets view
+            }
+        }
+
+        // Show notification
+        showToast('New Ticket', `New ticket created: ${data.subject}`);
+        playNotificationSound();
+
+        // Update the ticket rows reference for filtering
+        const ticketRows = document.querySelectorAll('tr[data-ticket-id]');
+    });
+
+    socket.on('ticket_status_change', (data) => {
+        const counts = {
+            'open': openCount,
+            'in_progress': inProgressCount,
+            'closed': resolvedCount
+        };
+
+        if (counts[data.old_status]) {
+            counts[data.old_status].textContent = parseInt(counts[data.old_status].textContent) - 1;
+        }
+        if (counts[data.new_status]) {
+            counts[data.new_status].textContent = parseInt(counts[data.new_status].textContent) + 1;
+        }
+
+        updateTicketRow(data.ticket);
+        showToast('Status Changed', `Ticket #${data.ticket.id} status changed to ${data.new_status.replace('_', ' ').title()}`);
+    });
+
+    // Multi-select functionality
+    const selectAll = document.getElementById('selectAll');
+    const deselectAll = document.getElementById('deselectAll');
+    const bulkActions = document.querySelector('.bulk-actions');
+    const ticketCheckboxes = document.querySelectorAll('.ticket-checkbox');
+    
+    function updateBulkActionsVisibility() {
+        const checkedBoxes = document.querySelectorAll('.ticket-checkbox:checked');
+        if (checkedBoxes.length > 0) {
+            bulkActions.classList.remove('d-none');
+        } else {
+            bulkActions.classList.add('d-none');
+        }
+    }
+    
+    // Select all functionality
+    selectAll?.addEventListener('change', function() {
+        ticketCheckboxes.forEach(checkbox => {
+            checkbox.checked = this.checked;
+        });
+        updateBulkActionsVisibility();
+    });
+    
+    // Deselect all button
+    deselectAll?.addEventListener('click', function() {
+        selectAll.checked = false;
+        ticketCheckboxes.forEach(checkbox => {
+            checkbox.checked = false;
+        });
+        updateBulkActionsVisibility();
+    });
+    
+    // Individual checkbox changes
+    ticketCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            updateBulkActionsVisibility();
+            // Update select all checkbox
+            selectAll.checked = [...ticketCheckboxes].every(cb => cb.checked);
+        });
+    });
+    
+    // Bulk actions
+    document.querySelectorAll('.bulk-action').forEach(action => {
+        action.addEventListener('click', async function(e) {
+            e.preventDefault();
+            const selectedTickets = [...document.querySelectorAll('.ticket-checkbox:checked')].map(cb => cb.value);
+            const newStatus = this.dataset.action;
+            
+            if (!selectedTickets.length) return;
+            
+            try {
+                const response = await fetch('/support/bulk-update-status', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        ticket_ids: selectedTickets,
+                        status: newStatus
+                    })
+                });
+                
+                const data = await response.json();
+                if (data.success) {
+                    location.reload();
+                } else {
+                    showToast('Error', data.error || 'Failed to update tickets');
+                }
+            } catch (error) {
+                console.error('Error updating tickets:', error);
+                showToast('Error', 'Failed to update tickets');
+            }
+        });
+    });
+
+    // Ticket filtering functionality
+    let ticketRows = document.querySelectorAll('tr[data-ticket-id]');
+
+    function filterTickets(status) {
+        // Update ticketRows reference to include any new rows
+        ticketRows = document.querySelectorAll('tr[data-ticket-id]');
+        
+        ticketRows.forEach(row => {
+            const ticketStatus = row.querySelector('.badge').textContent.toLowerCase().trim();
+            if (status === 'all') {
+                row.style.display = '';
+            } else if (status === 'active') {
+                row.style.display = (ticketStatus === 'open' || ticketStatus === 'in progress') ? '' : 'none';
+            } else if (status === 'resolved') {
+                row.style.display = ticketStatus === 'closed' ? '' : 'none';
+            }
+        });
+
+        // Update table message if no visible tickets
+        const visibleRows = [...ticketRows].filter(row => row.style.display !== 'none');
+        const tableBody = document.querySelector('.table-responsive');
+        const noTicketsDiv = document.getElementById('no-tickets');
+        
+        if (visibleRows.length === 0 && tableBody) {
+            if (!noTicketsDiv) {
+                const message = status === 'resolved' ? 
+                    'No resolved tickets found' : 
+                    (status === 'active' ? 'No active tickets found' : 'No tickets found');
+                
+                const noTicketsHtml = `
+                    <div class="text-center py-5" id="no-tickets">
+                        <i class="fas fa-ticket-alt fa-3x text-muted mb-3"></i>
+                        <h5>${message}</h5>
+                        ${status === 'active' ? `
+                        <p class="text-muted">Create a new ticket to get support</p>
+                        <a href="{{ url_for('tickets.create_ticket') }}" class="btn btn-primary">
+                            <i class="fas fa-plus me-2"></i>Create New Ticket
+                        </a>
+                        ` : ''}
+                    </div>
+                `;
+                tableBody.innerHTML = noTicketsHtml;
+            }
+        } else if (noTicketsDiv) {
+            noTicketsDiv.remove();
+        }
+    }
+
+    statusFilter?.addEventListener('change', function() {
+        filterTickets(this.value);
+    });
+
+    // Initialize with active tickets view
+    filterTickets('active');
+});
+=======
+function openNewTicketModal() {
+    document.getElementById('newTicketForm').reset();
+    document.getElementById('newTicketModal').classList.remove('hidden');
+}
+
+function closeNewTicketModal() {
+    document.getElementById('newTicketModal').classList.add('hidden');
+}
+
+function submitNewTicket() {
+    const form = document.getElementById('newTicketForm');
+    const formData = new FormData(form);
+    
+    fetch('/support/create', {
+                    method: 'POST',
+                    headers: {
+            'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+            'X-CSRFToken': document.querySelector('input[name="csrf_token"]').value
+        },
+        body: JSON.stringify(Object.fromEntries(formData)),
+        credentials: 'same-origin'
+    })
+    .then(response => {
+        if (!response.ok) throw new Error('Failed to create ticket');
+        return response.json();
+    })
+    .then(result => {
+        if (result.error) {
+            throw new Error(result.error);
+        }
+        location.reload();
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert(error.message || 'Error creating ticket. Please try again.');
+    });
+}
+>>>>>>> master
+</script>
+{% endblock %} 

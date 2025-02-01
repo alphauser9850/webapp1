@@ -1,0 +1,361 @@
+<<<<<<< HEAD
+{% extends "base.html" %}
+
+{% block title %}Session Management{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-3">
+            {% include 'admin/_sidebar.html' %}
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-md-9">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Session Management</h5>
+                    <div>
+                        <form action="{{ url_for('admin.cleanup_sessions') }}" method="POST" class="d-inline me-2">
+                            <button type="submit" class="btn btn-warning" onclick="return confirm('Are you sure you want to clean up stuck sessions?')">
+                                <i class="fas fa-broom me-2"></i>Cleanup Stuck Sessions
+                            </button>
+                        </form>
+                        <button id="deleteSelected" class="btn btn-danger" style="display: none;">
+                            <i class="fas fa-trash me-2"></i>Delete Selected
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form id="sessionsForm" action="{{ url_for('admin.delete_multiple_sessions') }}" method="POST">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 40px;">
+                                            <input type="checkbox" class="form-check-input" id="selectAll">
+                                        </th>
+                                        <th>User</th>
+                                        <th>Server</th>
+                                        <th>Category</th>
+                                        <th>Start Time</th>
+                                        <th>End Time</th>
+                                        <th>Duration</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for session in sessions %}
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox" class="form-check-input session-checkbox" 
+                                                   name="session_ids[]" value="{{ session.id }}"
+                                                   {% if not session.end_time %}disabled{% endif %}>
+                                        </td>
+                                        <td>{{ session.user.username }}</td>
+                                        <td>{{ session.server.name }}</td>
+                                        <td>{{ session.server.category.name }}</td>
+                                        <td>{{ session.start_time.strftime('%Y-%m-%d %H:%M') }}</td>
+                                        <td>
+                                            {% if session.end_time %}
+                                                {{ session.end_time.strftime('%Y-%m-%d %H:%M') }}
+                                            {% else %}
+                                                -
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if session.end_time %}
+                                                {{ "%.1f"|format(session.duration) }} hours
+                                            {% else %}
+                                                Active
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if not session.end_time %}
+                                                <span class="badge bg-success">Active</span>
+                                            {% else %}
+                                                <span class="badge bg-secondary">Ended</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if not session.end_time %}
+                                            <form action="{{ url_for('admin.end_session', id=session.id) }}" method="POST" class="d-inline">
+                                                <button type="submit" class="btn btn-sm btn-warning" onclick="return confirm('Are you sure you want to end this session?')">
+                                                    <i class="fas fa-stop"></i> End
+                                                </button>
+                                            </form>
+                                            {% endif %}
+                                            <form action="{{ url_for('admin.delete_session', id=session.id) }}" method="POST" class="d-inline">
+                                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this session?')" {% if not session.end_time %}disabled{% endif %}>
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const selectAll = document.getElementById('selectAll');
+    const deleteSelectedBtn = document.getElementById('deleteSelected');
+    const sessionsForm = document.getElementById('sessionsForm');
+
+    // Update delete button visibility initially
+    updateDeleteButton();
+
+    // Handle "Select All" checkbox
+    selectAll.addEventListener('change', function() {
+        const shouldCheck = this.checked;
+        document.querySelectorAll('.session-checkbox:not([disabled])').forEach(checkbox => {
+            checkbox.checked = shouldCheck;
+        });
+        updateDeleteButton();
+    });
+
+    // Handle individual checkboxes
+    document.querySelectorAll('.session-checkbox').forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            updateDeleteButton();
+            // Update "Select All" checkbox state
+            const allEnabled = document.querySelectorAll('.session-checkbox:not([disabled])');
+            const allChecked = document.querySelectorAll('.session-checkbox:not([disabled]):checked');
+            selectAll.checked = allEnabled.length === allChecked.length;
+            selectAll.indeterminate = allChecked.length > 0 && allChecked.length < allEnabled.length;
+        });
+    });
+
+    // Update delete button visibility
+    function updateDeleteButton() {
+        const checkedCount = document.querySelectorAll('.session-checkbox:checked').length;
+        deleteSelectedBtn.style.display = checkedCount > 0 ? 'inline-block' : 'none';
+        deleteSelectedBtn.innerHTML = `<i class="fas fa-trash me-2"></i>Delete Selected (${checkedCount})`;
+    }
+
+    // Handle delete selected button
+    deleteSelectedBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const selectedCount = document.querySelectorAll('.session-checkbox:checked').length;
+        if (selectedCount > 0 && confirm(`Are you sure you want to delete ${selectedCount} selected session(s)?`)) {
+            sessionsForm.submit();
+        }
+    });
+});
+</script>
+{% endblock %}
+
+=======
+{% extends "admin/layout.html" %}
+
+{% block title %}Active Sessions{% endblock %}
+
+{% block admin_content %}
+<div class="flex justify-between items-center mb-6">
+    <div class="flex items-center space-x-4">
+        <div class="relative">
+            <input type="text" id="searchInput" placeholder="Search sessions..." 
+                   class="pl-10 pr-4 py-2 bg-[#1B2B3A] border border-[#2D4A5D] rounded-lg text-[#E6F1FF] placeholder-[#8892B0] focus:outline-none focus:border-[#64FFDA]">
+            <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-[#8892B0]"></i>
+        </div>
+        <select id="serverFilter" class="px-4 py-2 bg-[#1B2B3A] border border-[#2D4A5D] rounded-lg text-[#E6F1FF] focus:outline-none focus:border-[#64FFDA]">
+            <option value="all">All Servers</option>
+            {% for server in servers %}
+            <option value="{{ server.id }}">{{ server.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <button onclick="cleanupSessions()" 
+            class="px-4 py-2 bg-[#64FFDA] text-[#0A192F] rounded-lg hover:bg-[#64FFDA]/90 transition-colors">
+        <i class="fas fa-broom mr-2"></i>Cleanup Stuck Sessions
+    </button>
+</div>
+
+<!-- Sessions Table -->
+<div class="bg-[#1B2B3A]/80 backdrop-blur-sm rounded-xl border border-[#2D4A5D] overflow-hidden">
+    <div class="overflow-x-auto">
+        <table class="w-full">
+            <thead>
+                <tr class="border-b border-[#2D4A5D] text-[#8892B0] text-sm">
+                    <th class="px-6 py-3 text-left">User</th>
+                    <th class="px-6 py-3 text-left">Server</th>
+                    <th class="px-6 py-3 text-left">Category</th>
+                    <th class="px-6 py-3 text-left">Start Time</th>
+                    <th class="px-6 py-3 text-left">End Time</th>
+                    <th class="px-6 py-3 text-left">Duration</th>
+                    <th class="px-6 py-3 text-left">Status</th>
+                    <th class="px-6 py-3 text-left">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for session in sessions %}
+                <tr class="border-b border-[#2D4A5D] text-sm hover:bg-[#233554]/50 transition-colors" data-session-id="{{ session.id }}">
+                    <td class="px-6 py-4 text-[#E6F1FF]">{{ session.user.username }}</td>
+                    <td class="px-6 py-4">
+                        <span class="px-2 py-1 text-xs rounded-full bg-blue-500/10 text-blue-400">
+                            {{ session.server.name }}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 text-[#8892B0]">{{ session.server.category.name }}</td>
+                    <td class="px-6 py-4 text-[#8892B0]">{{ session.start_time.strftime('%Y-%m-%d %H:%M') }}</td>
+                    <td class="px-6 py-4 text-[#8892B0]">
+                        {% if session.end_time %}
+                            {{ session.end_time.strftime('%Y-%m-%d %H:%M') }}
+                        {% else %}
+                            <span class="text-[#64FFDA]">Active</span>
+                        {% endif %}
+                    </td>
+                    <td class="px-6 py-4 text-[#8892B0]">
+                        {% if session.end_time %}
+                            {{ "%.1f"|format(session.duration) }} hours
+                        {% else %}
+                            <span class="text-[#64FFDA]">Running</span>
+                        {% endif %}
+                    </td>
+                    <td class="px-6 py-4">
+                        {% if session.is_active %}
+                            <span class="px-2 py-1 text-xs font-medium bg-green-500/20 text-green-500 rounded-full">Active</span>
+                        {% else %}
+                            <span class="px-2 py-1 text-xs font-medium bg-gray-500/20 text-gray-400 rounded-full">Ended</span>
+                        {% endif %}
+                    </td>
+                    <td class="px-6 py-4">
+                        <div class="flex items-center space-x-3">
+                            {% if session.is_active %}
+                            <button onclick="terminateSession('{{ session.id }}')" 
+                                    class="text-red-400 hover:text-red-500" 
+                                    title="Terminate Session">
+                                <i class="fas fa-stop"></i>
+                            </button>
+                            {% endif %}
+                            <button onclick="deleteSession('{{ session.id }}')"
+                                    class="text-[#64FFDA] hover:text-[#64FFDA]/80"
+                                    title="Delete Session"
+                                    {% if session.is_active %}disabled{% endif %}>
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- CSRF Token -->
+{{ form.csrf_token }}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Filter functionality
+function filterTable() {
+    const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+    const serverFilter = document.getElementById('serverFilter').value;
+    
+    const rows = document.querySelectorAll('tbody tr');
+    rows.forEach(row => {
+        const username = row.cells[0].textContent.toLowerCase();
+        const server = row.cells[1].querySelector('span').textContent.trim();
+        const category = row.cells[2].textContent.toLowerCase();
+        
+        const matchesSearch = username.includes(searchTerm) || category.includes(searchTerm);
+        const matchesServer = serverFilter === 'all' || row.cells[1].querySelector('span').textContent.trim() === server;
+        
+        row.style.display = matchesSearch && matchesServer ? '' : 'none';
+    });
+}
+
+// Add event listeners for filters
+document.getElementById('searchInput').addEventListener('input', filterTable);
+document.getElementById('serverFilter').addEventListener('change', filterTable);
+
+function terminateSession(sessionId) {
+    if (!confirm('Are you sure you want to terminate this session? The user will be disconnected immediately.')) {
+        return;
+    }
+    
+    fetch(`/admin/sessions/${sessionId}/terminate`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token() }}'
+        }
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.error) {
+            throw new Error(result.error);
+        }
+        window.location.reload();
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error terminating session. Please try again.');
+    });
+}
+
+function deleteSession(sessionId) {
+    if (!confirm('Are you sure you want to delete this session?')) {
+        return;
+    }
+    
+    fetch(`/admin/sessions/${sessionId}/delete`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token() }}'
+        }
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.error) {
+            throw new Error(result.error);
+        }
+        window.location.reload();
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error deleting session. Please try again.');
+    });
+}
+
+function cleanupSessions() {
+    if (!confirm('Are you sure you want to cleanup stuck sessions?')) {
+        return;
+    }
+    
+    fetch('/admin/sessions/cleanup', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token() }}'
+        }
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.error) {
+            throw new Error(result.error);
+        }
+        alert(result.message);
+        window.location.reload();
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error cleaning up sessions. Please try again.');
+    });
+}
+</script>
+>>>>>>> master
+{% endblock %} 

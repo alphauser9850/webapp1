@@ -1,0 +1,1723 @@
+{% extends "base.html" %}
+
+{% block content %}
+<<<<<<< HEAD
+<div class="container">
+    <!-- Hero Section -->
+    <div class="text-center mb-5 py-5">
+        <h1 class="display-3 fw-bold mb-4" style="background: linear-gradient(45deg, #2563eb, #1e40af); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+            Welcome to Deshmukh Systems Lab
+        </h1>
+        <p class="lead text-muted mb-4" style="font-size: 1.25rem;">Your gateway to hands-on networking experience with CCNA, CCNP, and CCIE labs.</p>
+    {% if not current_user.is_authenticated %}
+        <div class="mt-4 d-flex justify-content-center gap-3">
+            <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-lg">
+                <i class="fas fa-user-plus me-2"></i>Get Started
+            </a>
+            <a href="{{ url_for('auth.login') }}" class="btn btn-outline-primary btn-lg">
+                <i class="fas fa-sign-in-alt me-2"></i>Login
+            </a>
+    </div>
+    {% endif %}
+</div>
+
+    <!-- Certification Labs Section -->
+    <div class="mb-5">
+        <h2 class="text-center mb-5">Cisco Certification Labs</h2>
+        
+        <!-- Certification Track Tabs -->
+        <ul class="nav nav-pills mb-4 justify-content-center" id="certificationTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active px-4 py-2 mx-2" id="enterprise-tab" data-bs-toggle="pill" data-bs-target="#enterprise" type="button" role="tab">
+                    <i class="fas fa-building me-2"></i>Enterprise
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link px-4 py-2 mx-2" id="security-tab" data-bs-toggle="pill" data-bs-target="#security" type="button" role="tab">
+                    <i class="fas fa-shield-alt me-2"></i>Security
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link px-4 py-2 mx-2" id="datacenter-tab" data-bs-toggle="pill" data-bs-target="#datacenter" type="button" role="tab">
+                    <i class="fas fa-database me-2"></i>Data Center
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link px-4 py-2 mx-2" id="collaboration-tab" data-bs-toggle="pill" data-bs-target="#collaboration" type="button" role="tab">
+                    <i class="fas fa-comments me-2"></i>Collaboration
+                </button>
+            </li>
+        </ul>
+
+        <!-- Tab Content -->
+        <div class="tab-content" id="certificationTabsContent">
+            <!-- Enterprise Infrastructure Tab -->
+            <div class="tab-pane fade show active" id="enterprise" role="tabpanel">
+                <!-- Core Technologies -->
+                <div class="mb-5">
+                    <h3 class="h4 mb-4 text-primary">
+                        <i class="fas fa-network-wired me-2"></i>Core Technologies Lab
+                    </h3>
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="mb-3">ENCOR (350-401) Lab Environment</h5>
+                            <p class="text-muted mb-4">Hands-on practice with enterprise networking core technologies including:</p>
+                            <div class="row g-4">
+                                <div class="col-md-4">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Dual-stack IPv4/IPv6 Architecture</li>
+                                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Virtualization & Network Assurance</li>
+                                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Infrastructure Security</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-4">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Advanced Routing Protocols</li>
+                                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>SD-Access & SD-WAN</li>
+                                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Network Programmability</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-4">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Wireless & QoS</li>
+                                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Automation & Orchestration</li>
+                                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Network Services</li>
+                                    </ul>
+=======
+<!-- Scroll to Top Button -->
+<button id="scrollToTop" class="fixed bottom-8 right-8 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-full p-3 shadow-lg cursor-pointer opacity-0 transition-opacity duration-300 hover:shadow-blue-500/25 z-50">
+    <i class="fas fa-arrow-up"></i>
+</button>
+
+<!-- Override the container for hero section -->
+<div class="relative -mt-8">
+    <!-- Hero Section -->
+    <div class="relative min-h-[85vh] bg-gradient-to-br from-[#0A192F] via-[#112240] to-[#233554] overflow-hidden">
+        <!-- Background Pattern -->
+        <div class="absolute inset-0 bg-[url('/static/img/grid.svg')] bg-center [mask-image:linear-gradient(to_bottom,white,transparent)] opacity-10"></div>
+        
+        <!-- Main Content -->
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12">
+            <div class="flex flex-col lg:flex-row items-center justify-between">
+                <!-- Left Content -->
+                <div class="text-left lg:w-1/2 mb-12 lg:mb-0">
+                    <h1 class="text-4xl md:text-6xl font-bold text-[#E6F1FF] mb-6">
+                        Master Cisco<br>
+                        Certifications with<br>
+                        <span class="text-[#64FFDA]">Hands-on Labs</span>
+                    </h1>
+                    <p class="text-xl text-[#8892B0] max-w-xl mb-8">
+                        Access enterprise-grade lab environments for CCNA, CCNP, and CCIE certifications. 
+                        Practice real-world scenarios in a secure, isolated environment.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="{{ url_for('auth.register') }}" 
+                           class="px-6 py-3 bg-gradient-to-r from-[#64FFDA] to-[#48B8A0] hover:from-[#48B8A0] hover:to-[#64FFDA] text-[#0A192F] font-semibold rounded-lg transition-all duration-300 shadow-lg hover:shadow-[#64FFDA]/25">
+                            Get Started
+                        </a>
+                        <button onclick="openContactForm()"
+                                class="px-6 py-3 bg-transparent hover:bg-[#64FFDA]/10 text-[#64FFDA] font-semibold rounded-lg border border-[#64FFDA] transition-all duration-300">
+                            Contact Us
+                </button>
+                    </div>
+                </div>
+
+                <!-- Right Content - Interactive Terminal -->
+                <div class="lg:w-1/2 relative">
+                    <!-- Terminal Window -->
+                    <div class="terminal-container bg-[#1B2B3A] rounded-xl border border-[#2D4A5D] shadow-2xl transform hover:scale-[1.02] transition-all duration-300 cursor-pointer">
+                        <!-- Terminal Header -->
+                        <div class="flex items-center px-4 py-2 bg-[#1B2B3A] border-b border-[#2D4A5D] rounded-t-xl">
+                            <div class="flex space-x-2">
+                                <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                                <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                                <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                            </div>
+                            <span class="ml-4 text-sm text-gray-400">cisco@lab ~ router-config</span>
+                        </div>
+                        <!-- Terminal Content -->
+                        <div class="p-4 font-mono text-sm h-[400px] overflow-y-auto" id="terminalContent">
+                            <div class="typing-animation text-[#64FFDA] whitespace-pre">Click here to start registration...</div>
+                            <div class="terminal-input-line hidden">
+                                <span class="terminal-prompt text-[#64FFDA]">user@deshmukhLab:~$</span>
+                                <input type="text" class="terminal-input bg-transparent border-none outline-none text-[#64FFDA] ml-2 w-2/3" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+>>>>>>> master
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+<<<<<<< HEAD
+                <!-- Concentration Labs -->
+                <div class="row g-4">
+                    <!-- Advanced Routing -->
+                    <div class="col-md-6">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <i class="fas fa-route text-success me-2"></i>
+                                    ENARSI (300-415) Labs
+                                </h5>
+                                <p class="text-muted small">Advanced routing and services implementation practice:</p>
+                                <ul class="list-unstyled">
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Layer 3 Technologies</li>
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>VPN Technologies</li>
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Infrastructure Security</li>
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Infrastructure Services</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Network Design -->
+                    <div class="col-md-6">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <i class="fas fa-project-diagram text-info me-2"></i>
+                                    ENSLD (300-420) Labs
+                                </h5>
+                                <p class="text-muted small">Enterprise network design practice:</p>
+                                <ul class="list-unstyled">
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Advanced Enterprise Campus Networks</li>
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>WAN for Enterprise Networks</li>
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Network Services Design</li>
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>SDA & SD-WAN Design</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Automation -->
+                    <div class="col-md-6">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <i class="fas fa-code text-warning me-2"></i>
+                                    ENAUTO (300-435) Labs
+                                </h5>
+                                <p class="text-muted small">Network automation practice environments:</p>
+                                <ul class="list-unstyled">
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Python for Network Automation</li>
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>APIs & Controllers</li>
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Ansible Automation</li>
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>NetConf/YANG Implementation</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Wireless -->
+                    <div class="col-md-6">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <i class="fas fa-wifi text-danger me-2"></i>
+                                    ENWLSI (300-430) Labs
+                                </h5>
+                                <p class="text-muted small">Enterprise wireless implementation labs:</p>
+                                <ul class="list-unstyled">
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Advanced Wireless Networks</li>
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Wireless Security</li>
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Location Services</li>
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Monitoring & Troubleshooting</li>
+                                </ul>
+                            </div>
+                        </div>
+=======
+<!-- Main Content with Consistent Background -->
+<div class="relative bg-gradient-to-br from-[#0A192F] via-[#112240] to-[#1B2B3A]">
+    <!-- Animated Cloud Background -->
+    <div class="absolute inset-0 opacity-50">
+        <div class="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-purple-500/10 to-pink-500/10 animate-gradient-xy"></div>
+                    </div>
+
+    <!-- Certification Tracks Section -->
+    <div class="relative py-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Section Header with Animated Background -->
+            <div class="relative text-center mb-16 p-8 rounded-2xl bg-gradient-to-r from-[#0A192F]/50 via-[#112240]/50 to-[#233554]/50 backdrop-blur-sm border border-[#64FFDA]/10">
+                <div class="absolute inset-0 bg-[url('/static/img/grid.svg')] bg-center opacity-10"></div>
+                <h2 class="text-4xl md:text-5xl font-bold text-white mb-4 relative">
+                    Enterprise Networking Labs
+                    <span class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-[#64FFDA] to-transparent"></span>
+                </h2>
+                <p class="text-xl text-[#8892B0] max-w-2xl mx-auto relative">Master enterprise networking with our comprehensive lab environments</p>
+                    </div>
+
+            <!-- Enterprise Track Card -->
+            <div class="bg-gradient-to-br from-[#1B2B3A]/80 to-[#0A192F]/80 rounded-2xl shadow-xl border border-[#2D4A5D] overflow-hidden transition-all duration-300 hover:border-[#64FFDA]/50 group">
+                <!-- Header -->
+                <div class="p-8 bg-gradient-to-r from-[#1B2B3A] to-[#0A192F] border-b border-[#2D4A5D]">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-16 h-16 bg-gradient-to-br from-[#64FFDA] to-[#48B8A0] rounded-xl flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300">
+                            <i class="fas fa-network-wired text-[#0A192F] text-3xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-white">Enterprise Infrastructure</h3>
+                            <p class="text-[#8892B0]">CCNA → CCNP → CCIE</p>
+>>>>>>> master
+                    </div>
+                </div>
+            </div>
+
+<<<<<<< HEAD
+            <!-- Security Tab -->
+            <div class="tab-pane fade" id="security" role="tabpanel">
+                <!-- Core Technologies -->
+                <div class="mb-5">
+                    <h3 class="h4 mb-4 text-primary">
+                        <i class="fas fa-shield-alt me-2"></i>Security Core Lab
+                    </h3>
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="mb-3">SCOR (350-701) Lab Environment</h5>
+                            <p class="text-muted mb-4">Hands-on practice with security core technologies including:</p>
+                            <div class="row g-4">
+                                <div class="col-md-4">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Network Security</li>
+                                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Cloud Security</li>
+                                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Content Security</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-4">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Endpoint Protection</li>
+                                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Secure Network Access</li>
+                                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>VPN Technologies</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-4">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Security Automation</li>
+                                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Security Intelligence</li>
+                                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Incident Response</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Security Concentration Labs -->
+                <div class="row g-4">
+                    <!-- SVPN -->
+                    <div class="col-md-6">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <i class="fas fa-key text-success me-2"></i>
+                                    SVPN (300-730) Labs
+                                </h5>
+                                <p class="text-muted small">Implementing Secure VPN Solutions:</p>
+                                <ul class="list-unstyled">
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Site-to-Site VPNs</li>
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Remote Access VPNs</li>
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Clientless SSL VPNs</li>
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Advanced VPN Features</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SISE -->
+                    <div class="col-md-6">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <i class="fas fa-user-shield text-info me-2"></i>
+                                    SISE (300-715) Labs
+                                </h5>
+                                <p class="text-muted small">Implementing ISE and NAC Solutions:</p>
+                                <ul class="list-unstyled">
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>ISE Architecture & Deployment</li>
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>BYOD & MDM Integration</li>
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Posture Assessment</li>
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Profiling & Authorization</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SESA -->
+                    <div class="col-md-6">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <i class="fas fa-mail-bulk text-warning me-2"></i>
+                                    SESA (300-720) Labs
+                                </h5>
+                                <p class="text-muted small">Securing Email with Cisco ESA:</p>
+                                <ul class="list-unstyled">
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Email Security Deployment</li>
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Anti-Spam & Anti-Malware</li>
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Email Encryption</li>
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>DLP Implementation</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SWSA -->
+                    <div class="col-md-6">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <i class="fas fa-globe-americas text-danger me-2"></i>
+                                    SWSA (300-725) Labs
+                                </h5>
+                                <p class="text-muted small">Securing Web with Cisco WSA:</p>
+                                <ul class="list-unstyled">
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Proxy Services Configuration</li>
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Malware Protection</li>
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Application Visibility</li>
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Data Security</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data Center Tab -->
+            <div class="tab-pane fade" id="datacenter" role="tabpanel">
+                <!-- Core Technologies -->
+                <div class="mb-5">
+                    <h3 class="h4 mb-4 text-primary">
+                        <i class="fas fa-database me-2"></i>Data Center Core Lab
+                    </h3>
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="mb-3">DCCOR (350-601) Lab Environment</h5>
+                            <p class="text-muted mb-4">Hands-on practice with data center technologies including:</p>
+                            <div class="row g-4">
+                                <div class="col-md-4">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Network Infrastructure</li>
+                                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Compute Infrastructure</li>
+                                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Storage Infrastructure</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-4">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Automation & Orchestration</li>
+                                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Infrastructure Security</li>
+                                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Cloud Infrastructure</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-4">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>ACI Implementation</li>
+                                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>NX-OS Automation</li>
+                                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>SAN Configuration</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Data Center Concentration Labs -->
+                <div class="row g-4">
+                    <!-- DCACI -->
+                    <div class="col-md-6">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <i class="fas fa-sitemap text-success me-2"></i>
+                                    DCACI (300-620) Labs
+                                </h5>
+                                <p class="text-muted small">Implementing Cisco ACI:</p>
+                                <ul class="list-unstyled">
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>ACI Fabric Infrastructure</li>
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>ACI Policies & Contracts</li>
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>External Connectivity</li>
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Integration & Automation</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- DCAUI -->
+                    <div class="col-md-6">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <i class="fas fa-code text-info me-2"></i>
+                                    DCAUI (300-635) Labs
+                                </h5>
+                                <p class="text-muted small">Automating & Programming Data Center:</p>
+                                <ul class="list-unstyled">
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Network Programmability</li>
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>ACI Programmability</li>
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>UCS Programmability</li>
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Intersight API</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Collaboration Tab -->
+            <div class="tab-pane fade" id="collaboration" role="tabpanel">
+                <!-- Core Technologies -->
+                <div class="mb-5">
+                    <h3 class="h4 mb-4 text-primary">
+                        <i class="fas fa-comments me-2"></i>Collaboration Core Lab
+                    </h3>
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="mb-3">CLCOR (350-801) Lab Environment</h5>
+                            <p class="text-muted mb-4">Hands-on practice with collaboration technologies including:</p>
+                            <div class="row g-4">
+                                <div class="col-md-4">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Infrastructure & Protocols</li>
+                                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Cisco Unified CM</li>
+                                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Quality of Service</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-4">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Mobility Features</li>
+                                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Cisco Unity Connection</li>
+                                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>IM and Presence</li>
+                                    </ul>
+                                </div>
+    <div class="col-md-4">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Video Integration</li>
+                                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Edge Architecture</li>
+                                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Cloud Solutions</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Collaboration Concentration Labs -->
+                <div class="row g-4">
+                    <!-- CLICA -->
+                    <div class="col-md-6">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <i class="fas fa-phone-alt text-success me-2"></i>
+                                    CLICA (300-810) Labs
+                                </h5>
+                                <p class="text-muted small">Implementing Collaboration Applications:</p>
+                                <ul class="list-unstyled">
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Single Sign-On</li>
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Jabber Deployment</li>
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Webex Integration</li>
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Contact Center</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CLCEI -->
+                    <div class="col-md-6">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <i class="fas fa-video text-info me-2"></i>
+                                    CLCEI (300-820) Labs
+                                </h5>
+                                <p class="text-muted small">Implementing Collaboration Cloud & Edge Solutions:</p>
+                                <ul class="list-unstyled">
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Webex Solutions</li>
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Hybrid Services</li>
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Edge Architecture</li>
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Cloud Security</li>
+                                </ul>
+                            </div>
+=======
+                <!-- Content Grid -->
+                <div class="p-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- CCNA Card -->
+                    <div class="bg-[#112240]/50 rounded-xl p-6 border border-[#2D4A5D] hover:border-[#64FFDA]/30 transition-all duration-300">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 bg-[#64FFDA]/10 rounded-lg flex items-center justify-center mr-4">
+                                <i class="fas fa-graduation-cap text-[#64FFDA] text-2xl"></i>
+                            </div>
+                            <h4 class="text-xl font-bold text-white">CCNA Labs</h4>
+                        </div>
+                        <ul class="space-y-3">
+                            <li class="flex items-center text-[#8892B0]">
+                                <i class="fas fa-check text-[#64FFDA] mr-2"></i>
+                                Network Fundamentals
+                            </li>
+                            <li class="flex items-center text-[#8892B0]">
+                                <i class="fas fa-check text-[#64FFDA] mr-2"></i>
+                                Switching & Routing
+                            </li>
+                            <li class="flex items-center text-[#8892B0]">
+                                <i class="fas fa-check text-[#64FFDA] mr-2"></i>
+                                Network Access
+                            </li>
+                        </ul>
+                        <a href="{{ url_for('auth.register') }}" class="mt-6 block text-center py-2 px-4 rounded-lg border border-[#64FFDA] text-[#64FFDA] hover:bg-[#64FFDA]/10 transition-colors duration-300">
+                            Start Learning
+                        </a>
+                </div>
+
+                    <!-- CCNP Card -->
+                    <div class="bg-[#112240]/50 rounded-xl p-6 border border-[#2D4A5D] hover:border-[#64FFDA]/30 transition-all duration-300">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 bg-[#64FFDA]/10 rounded-lg flex items-center justify-center mr-4">
+                                <i class="fas fa-server text-[#64FFDA] text-2xl"></i>
+                            </div>
+                            <h4 class="text-xl font-bold text-white">CCNP Labs</h4>
+                        </div>
+                        <ul class="space-y-3">
+                            <li class="flex items-center text-[#8892B0]">
+                                <i class="fas fa-check text-[#64FFDA] mr-2"></i>
+                                Advanced Routing
+                            </li>
+                            <li class="flex items-center text-[#8892B0]">
+                                <i class="fas fa-check text-[#64FFDA] mr-2"></i>
+                                SD-WAN & SD-Access
+                            </li>
+                            <li class="flex items-center text-[#8892B0]">
+                                <i class="fas fa-check text-[#64FFDA] mr-2"></i>
+                                Network Design
+                            </li>
+                        </ul>
+                        <a href="{{ url_for('auth.register') }}" class="mt-6 block text-center py-2 px-4 rounded-lg border border-[#64FFDA] text-[#64FFDA] hover:bg-[#64FFDA]/10 transition-colors duration-300">
+                            Start Learning
+                        </a>
+                    </div>
+
+                    <!-- CCIE Card -->
+                    <div class="bg-[#112240]/50 rounded-xl p-6 border border-[#2D4A5D] hover:border-[#64FFDA]/30 transition-all duration-300">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 bg-[#64FFDA]/10 rounded-lg flex items-center justify-center mr-4">
+                                <i class="fas fa-crown text-[#64FFDA] text-2xl"></i>
+                            </div>
+                            <h4 class="text-xl font-bold text-white">CCIE Labs</h4>
+                        </div>
+                        <ul class="space-y-3">
+                            <li class="flex items-center text-[#8892B0]">
+                                <i class="fas fa-check text-[#64FFDA] mr-2"></i>
+                                Expert-Level Design
+                            </li>
+                            <li class="flex items-center text-[#8892B0]">
+                                <i class="fas fa-check text-[#64FFDA] mr-2"></i>
+                                Complex Troubleshooting
+                            </li>
+                            <li class="flex items-center text-[#8892B0]">
+                                <i class="fas fa-check text-[#64FFDA] mr-2"></i>
+                                Lab Exam Prep
+                            </li>
+                        </ul>
+                        <a href="{{ url_for('auth.register') }}" class="mt-6 block text-center py-2 px-4 rounded-lg border border-[#64FFDA] text-[#64FFDA] hover:bg-[#64FFDA]/10 transition-colors duration-300">
+                            Start Learning
+                        </a>
+                </div>
+            </div>
+
+                <!-- Features Section -->
+                <div class="p-8 bg-gradient-to-r from-[#1B2B3A]/50 to-[#0A192F]/50 border-t border-[#2D4A5D]">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-[#64FFDA]/10 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-clock text-[#64FFDA]"></i>
+                            </div>
+                            <span class="text-[#8892B0]">24/7 Lab Access</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-[#64FFDA]/10 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-users text-[#64FFDA]"></i>
+                            </div>
+                            <span class="text-[#8892B0]">Expert Support</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-[#64FFDA]/10 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-sync text-[#64FFDA]"></i>
+                            </div>
+                            <span class="text-[#8892B0]">Regular Updates</span>
+>>>>>>> master
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<<<<<<< HEAD
+    <!-- Visual Separator -->
+    <div class="text-center mb-5">
+        <hr class="w-25 mx-auto" style="height: 2px; opacity: 0.1;">
+        <h2 class="my-5">Lab Environments</h2>
+        <p class="lead text-muted mb-5">Choose from our diverse range of lab environments to match your learning needs</p>
+    </div>
+
+    <!-- Lab Categories -->
+    <div class="row g-4 justify-content-center mb-5">
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-5">
+                    <div class="mb-4">
+                        <div class="icon-circle bg-primary bg-opacity-10 mx-auto mb-3" style="width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-network-wired text-primary" style="font-size: 2.5rem;"></i>
+                        </div>
+                        <h3 class="h4 mb-3">EVE-NG Pro Labs</h3>
+                        <p class="text-muted mb-0">Enterprise-grade network emulation with multi-vendor support. Perfect for complex network scenarios and certification practice.</p>
+                    </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-5">
+                    <div class="mb-4">
+                        <div class="icon-circle bg-success bg-opacity-10 mx-auto mb-3" style="width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-cubes text-success" style="font-size: 2.5rem;"></i>
+                        </div>
+                        <h3 class="h4 mb-3">ContainerLab</h3>
+                        <p class="text-muted mb-0">Modern containerized networking labs. Ideal for network automation, DevOps practices, and cloud-native networking.</p>
+                    </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-5">
+                    <div class="mb-4">
+                        <div class="icon-circle bg-danger bg-opacity-10 mx-auto mb-3" style="width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-server text-danger" style="font-size: 2.5rem;"></i>
+                        </div>
+                        <h3 class="h4 mb-3">Physical Labs</h3>
+                        <p class="text-muted mb-0">Real hardware experience with Cisco devices. Get hands-on practice with actual enterprise networking equipment.</p>
+                    </div>
+=======
+    <!-- Lab Environments Section -->
+    <div class="relative py-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Lab Environments</h2>
+                <p class="text-xl text-gray-300">Choose from our diverse range of lab environments to match your learning needs</p>
+    </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- EVE-NG Pro -->
+                <div class="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-sm rounded-2xl shadow-lg p-8 text-center border border-slate-700/50 hover:border-blue-500/50 transition-all duration-300">
+                    <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-network-wired text-white text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-4">EVE-NG Pro Labs</h3>
+                    <p class="text-gray-300">Enterprise-grade network emulation with multi-vendor support. Perfect for complex network scenarios and certification practice.</p>
+            </div>
+
+                <!-- ContainerLab -->
+                <div class="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-sm rounded-2xl shadow-lg p-8 text-center border border-slate-700/50 hover:border-emerald-500/50 transition-all duration-300">
+                    <div class="w-20 h-20 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-cubes text-white text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-4">ContainerLab</h3>
+                    <p class="text-gray-300">Modern containerized networking labs. Ideal for network automation, DevOps practices, and cloud-native networking.</p>
+            </div>
+
+                <!-- Physical Labs -->
+                <div class="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-sm rounded-2xl shadow-lg p-8 text-center border border-slate-700/50 hover:border-purple-500/50 transition-all duration-300">
+                    <div class="w-20 h-20 bg-gradient-to-br from-purple-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-server text-white text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-4">Physical Labs</h3>
+                    <p class="text-gray-300">Real hardware experience with Cisco devices. Get hands-on practice with actual enterprise networking equipment.</p>
+>>>>>>> master
+                </div>
+            </div>
+        </div>
+    </div>
+
+<<<<<<< HEAD
+    <!-- Lab Technologies -->
+    <div class="row g-4 justify-content-center mb-5">
+        <h2 class="text-center mb-4">Available Technologies</h2>
+        <div class="col-md-3">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <div class="icon-circle bg-info bg-opacity-10 mx-auto mb-3" style="width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-cloud text-info" style="font-size: 1.8rem;"></i>
+                    </div>
+                    <h4 class="h5">Cloud & SDN</h4>
+                    <p class="text-muted small mb-0">AWS, Azure, SD-WAN, NSX</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <div class="icon-circle bg-success bg-opacity-10 mx-auto mb-3" style="width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-shield-alt text-success" style="font-size: 1.8rem;"></i>
+                    </div>
+                    <h4 class="h5">Security</h4>
+                    <p class="text-muted small mb-0">Firewalls, IPS/IDS, VPNs</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <div class="icon-circle bg-warning bg-opacity-10 mx-auto mb-3" style="width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-code text-warning" style="font-size: 1.8rem;"></i>
+                    </div>
+                    <h4 class="h5">Automation</h4>
+                    <p class="text-muted small mb-0">Ansible, Python, Terraform</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <div class="icon-circle bg-primary bg-opacity-10 mx-auto mb-3" style="width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-network-wired text-primary" style="font-size: 1.8rem;"></i>
+                    </div>
+                    <h4 class="h5">Routing & Switching</h4>
+                    <p class="text-muted small mb-0">OSPF, BGP, MPLS, EVPN</p>
+=======
+    <!-- Technologies Section -->
+    <div class="relative py-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl md:text-4xl font-bold text-white text-center mb-16">Available Technologies</h2>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <!-- Cloud & SDN -->
+                <div class="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-sm rounded-2xl shadow-lg p-6 text-center">
+                    <div class="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-cloud text-blue-600 text-2xl"></i>
+                    </div>
+                    <h4 class="text-lg font-semibold text-gray-300 mb-2">Cloud & SDN</h4>
+                    <p class="text-sm text-gray-400">AWS, Azure, SD-WAN, NSX</p>
+                </div>
+
+                <!-- Security -->
+                <div class="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-sm rounded-2xl shadow-lg p-6 text-center">
+                    <div class="w-16 h-16 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-shield-alt text-green-600 text-2xl"></i>
+                    </div>
+                    <h4 class="text-lg font-semibold text-gray-300 mb-2">Security</h4>
+                    <p class="text-sm text-gray-400">Firewalls, IPS/IDS, VPNs</p>
+                </div>
+
+                <!-- Automation -->
+                <div class="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-sm rounded-2xl shadow-lg p-6 text-center">
+                    <div class="w-16 h-16 bg-yellow-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-code text-yellow-600 text-2xl"></i>
+                    </div>
+                    <h4 class="text-lg font-semibold text-gray-300 mb-2">Automation</h4>
+                    <p class="text-sm text-gray-400">Ansible, Python, Terraform</p>
+                </div>
+
+                <!-- Routing & Switching -->
+                <div class="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-sm rounded-2xl shadow-lg p-6 text-center">
+                    <div class="w-16 h-16 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-network-wired text-purple-600 text-2xl"></i>
+                    </div>
+                    <h4 class="text-lg font-semibold text-gray-300 mb-2">Routing & Switching</h4>
+                    <p class="text-sm text-gray-400">OSPF, BGP, MPLS, EVPN</p>
+>>>>>>> master
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+<<<<<<< HEAD
+    <div class="py-5">
+        <h2 class="text-center mb-5">Why Choose Our Lab?</h2>
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="d-flex align-items-start mb-4">
+                    <div class="flex-shrink-0">
+                        <div class="icon-circle bg-primary bg-opacity-10 p-3" style="border-radius: 12px;">
+                            <i class="fas fa-server text-primary"></i>
+                        </div>
+                    </div>
+                    <div class="flex-grow-1 ms-4">
+                        <h4>Real Hardware Experience</h4>
+                        <p class="text-muted">Practice on actual Cisco devices, not simulations. Get hands-on experience with real network equipment.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="d-flex align-items-start mb-4">
+                    <div class="flex-shrink-0">
+                        <div class="icon-circle bg-success bg-opacity-10 p-3" style="border-radius: 12px;">
+                            <i class="fas fa-clock text-success"></i>
+                        </div>
+                    </div>
+                    <div class="flex-grow-1 ms-4">
+                        <h4>24/7 Availability</h4>
+                        <p class="text-muted">Access your lab environment anytime, anywhere. Practice at your own pace with flexible scheduling.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="d-flex align-items-start mb-4">
+                    <div class="flex-shrink-0">
+                        <div class="icon-circle bg-info bg-opacity-10 p-3" style="border-radius: 12px;">
+                            <i class="fas fa-tools text-info"></i>
+                        </div>
+                    </div>
+                    <div class="flex-grow-1 ms-4">
+                        <h4>Full Device Control</h4>
+                        <p class="text-muted">Complete access to device configurations. Reset, save, and experiment with different network scenarios.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="d-flex align-items-start mb-4">
+                    <div class="flex-shrink-0">
+                        <div class="icon-circle bg-warning bg-opacity-10 p-3" style="border-radius: 12px;">
+                            <i class="fas fa-graduation-cap text-warning"></i>
+                        </div>
+                    </div>
+                    <div class="flex-grow-1 ms-4">
+                        <h4>Certification Focused</h4>
+                        <p class="text-muted">Lab scenarios designed to match certification exam requirements. Perfect for exam preparation.</p>
+=======
+    <div class="relative py-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl md:text-4xl font-bold text-white text-center mb-16">Why Choose Our Lab?</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <!-- Real Hardware -->
+                <div class="flex items-start">
+                    <div class="flex-shrink-0">
+                        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-server text-blue-600"></i>
+                        </div>
+                    </div>
+                    <div class="ml-6">
+                        <h4 class="text-xl font-bold text-gray-300 mb-2">Real Hardware Experience</h4>
+                        <p class="text-gray-400">Practice on actual Cisco devices, not simulations. Get hands-on experience with real network equipment.</p>
+                    </div>
+                </div>
+
+                <!-- 24/7 Availability -->
+                <div class="flex items-start">
+                    <div class="flex-shrink-0">
+                        <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-clock text-green-600"></i>
+                        </div>
+                    </div>
+                    <div class="ml-6">
+                        <h4 class="text-xl font-bold text-gray-300 mb-2">24/7 Availability</h4>
+                        <p class="text-gray-400">Access your lab environment anytime, anywhere. Practice at your own pace with flexible scheduling.</p>
+                    </div>
+                </div>
+
+                <!-- Full Control -->
+                <div class="flex items-start">
+                    <div class="flex-shrink-0">
+                        <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-tools text-purple-600"></i>
+                        </div>
+                    </div>
+                    <div class="ml-6">
+                        <h4 class="text-xl font-bold text-gray-300 mb-2">Full Device Control</h4>
+                        <p class="text-gray-400">Complete access to device configurations. Reset, save, and experiment with different network scenarios.</p>
+                    </div>
+                </div>
+
+                <!-- Certification Focus -->
+                <div class="flex items-start">
+                    <div class="flex-shrink-0">
+                        <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-graduation-cap text-yellow-600"></i>
+                        </div>
+                    </div>
+                    <div class="ml-6">
+                        <h4 class="text-xl font-bold text-gray-300 mb-2">Certification Focused</h4>
+                        <p class="text-gray-400">Lab scenarios designed to match certification exam requirements. Perfect for exam preparation.</p>
+>>>>>>> master
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<<<<<<< HEAD
+
+    <!-- Lab Environment Section -->
+    <div class="py-5">
+        <h2 class="text-center mb-5">Our Lab Environment</h2>
+        <div class="row g-4">
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body">
+                        <h4 class="card-title"><i class="fas fa-network-wired text-primary me-2"></i>Network Topology</h4>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Multiple complex topologies</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Enterprise-grade equipment</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Latest IOS versions</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Customizable configurations</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body">
+                        <h4 class="card-title"><i class="fas fa-tools text-primary me-2"></i>Available Tools</h4>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Console access</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Configuration backup</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Troubleshooting tools</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Network monitoring</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body">
+                        <h4 class="card-title"><i class="fas fa-user-shield text-primary me-2"></i>Lab Features</h4>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Dedicated sessions</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Auto-save functionality</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Session persistence</li>
+                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Technical support</li>
+                        </ul>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- Student Success Features -->
+    <div class="py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center mb-5">Empowering Your Learning Journey</h2>
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body">
+                            <div class="text-center mb-4">
+                                <div class="icon-circle bg-primary bg-opacity-10 mx-auto mb-3" style="width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-book-reader text-primary" style="font-size: 2.5rem;"></i>
+                                </div>
+                                <h4>Interactive Lab Guides</h4>
+                            </div>
+                            <ul class="list-unstyled">
+                                <li class="mb-3">
+                                    <i class="fas fa-check-circle text-success me-2"></i>
+                                    Step-by-step instructions with real-time validation
+                                </li>
+                                <li class="mb-3">
+                                    <i class="fas fa-check-circle text-success me-2"></i>
+                                    Detailed topology diagrams and command references
+                                </li>
+                                <li class="mb-3">
+                                    <i class="fas fa-check-circle text-success me-2"></i>
+                                    Built-in note-taking and bookmarking
+                                </li>
+                                <li class="mb-3">
+                                    <i class="fas fa-check-circle text-success me-2"></i>
+                                    Progress auto-save and resume
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body">
+                            <div class="text-center mb-4">
+                                <div class="icon-circle bg-success bg-opacity-10 mx-auto mb-3" style="width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-robot text-success" style="font-size: 2.5rem;"></i>
+                                </div>
+                                <h4>Real-time Lab Assistant</h4>
+                            </div>
+                            <ul class="list-unstyled">
+                                <li class="mb-3">
+                                    <i class="fas fa-check-circle text-success me-2"></i>
+                                    Instant configuration validation and feedback
+                                </li>
+                                <li class="mb-3">
+                                    <i class="fas fa-check-circle text-success me-2"></i>
+                                    Smart troubleshooting suggestions
+                                </li>
+                                <li class="mb-3">
+                                    <i class="fas fa-check-circle text-success me-2"></i>
+                                    Command syntax assistance
+                                </li>
+                                <li class="mb-3">
+                                    <i class="fas fa-check-circle text-success me-2"></i>
+                                    Best practices recommendations
+            </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body">
+                            <div class="text-center mb-4">
+                                <div class="icon-circle bg-warning bg-opacity-10 mx-auto mb-3" style="width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-chart-line text-warning" style="font-size: 2.5rem;"></i>
+                                </div>
+                                <h4>Progress Tracking</h4>
+                            </div>
+                            <ul class="list-unstyled">
+                                <li class="mb-3">
+                                    <i class="fas fa-check-circle text-success me-2"></i>
+                                    Visual skill progression dashboard
+            </li>
+                                <li class="mb-3">
+                                    <i class="fas fa-check-circle text-success me-2"></i>
+                                    Certification readiness indicators
+            </li>
+                                <li class="mb-3">
+                                    <i class="fas fa-check-circle text-success me-2"></i>
+                                    Personalized learning recommendations
+            </li>
+                                <li class="mb-3">
+                                    <i class="fas fa-check-circle text-success me-2"></i>
+                                    Achievement badges and rewards
+            </li>
+        </ul>
+    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
+=======
+                    </div>
+
+<!-- Contact Form Modal -->
+<div id="contactModal" class="fixed inset-0 z-50 hidden items-center justify-center modal-backdrop">
+    <div id="contactForm" class="modal-content w-full max-w-md p-6 rounded-xl relative">
+        <button onclick="closeContactForm()" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+            <i class="fas fa-times"></i>
+        </button>
+        <h3 class="text-2xl font-bold text-white mb-4">Contact Us</h3>
+        <form id="contactFormElement" class="space-y-4" onsubmit="submitContactForm(event)">
+            <div>
+                <label class="block text-sm font-medium text-gray-300 mb-1">Name</label>
+                <input type="text" name="name" required class="w-full px-4 py-2 bg-[#1B2B3A] border border-[#2D4A5D] rounded-lg text-white focus:border-[#64FFDA] focus:ring-1 focus:ring-[#64FFDA] transition-all duration-300">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-300 mb-1">Email</label>
+                <input type="email" name="email" required class="w-full px-4 py-2 bg-[#1B2B3A] border border-[#2D4A5D] rounded-lg text-white focus:border-[#64FFDA] focus:ring-1 focus:ring-[#64FFDA] transition-all duration-300">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-300 mb-1">Phone Number</label>
+                <div class="relative">
+                    <input type="tel" name="phone" id="phone" class="w-full px-4 py-2 bg-[#1B2B3A] border border-[#2D4A5D] rounded-lg text-white focus:border-[#64FFDA] focus:ring-1 focus:ring-[#64FFDA] transition-all duration-300">
+                    <input type="hidden" name="country_code" id="country_code">
+                </div>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-300 mb-1">Message</label>
+                <textarea name="message" required rows="4" class="w-full px-4 py-2 bg-[#1B2B3A] border border-[#2D4A5D] rounded-lg text-white focus:border-[#64FFDA] focus:ring-1 focus:ring-[#64FFDA] transition-all duration-300"></textarea>
+            </div>
+            <button type="submit" class="w-full px-6 py-3 bg-gradient-to-r from-[#64FFDA] to-[#48B8A0] hover:from-[#48B8A0] hover:to-[#64FFDA] text-[#0A192F] font-semibold rounded-lg transition-all duration-300">
+                Send Message
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- Add this to your styles block -->
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css">
+<style>
+    @keyframes gradient-xy {
+        0%, 100% {
+            background-size: 400% 400%;
+            background-position: 0% 0%;
+        }
+        50% {
+            background-size: 200% 200%;
+            background-position: 100% 100%;
+        }
+    }
+    
+    .animate-gradient-xy {
+        animation: gradient-xy 15s ease infinite;
+    }
+
+    .typing-animation::after {
+        content: '|';
+        animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0; }
+    }
+
+    @keyframes float {
+        0%, 100% {
+            transform: translateY(0) translateX(0);
+        }
+        25% {
+            transform: translateY(-10px) translateX(5px);
+        }
+        50% {
+            transform: translateY(0) translateX(10px);
+        }
+        75% {
+            transform: translateY(10px) translateX(5px);
+        }
+    }
+
+    @keyframes float-slow {
+        0%, 100% {
+            transform: translateY(0) translateX(0);
+        }
+        25% {
+            transform: translateY(-15px) translateX(-5px);
+        }
+        50% {
+            transform: translateY(-5px) translateX(-10px);
+        }
+        75% {
+            transform: translateY(10px) translateX(-5px);
+        }
+    }
+
+    @keyframes float-slower {
+        0%, 100% {
+            transform: translateY(0) translateX(0);
+        }
+        25% {
+            transform: translateY(15px) translateX(10px);
+        }
+        50% {
+            transform: translateY(5px) translateX(15px);
+        }
+        75% {
+            transform: translateY(-10px) translateX(10px);
+        }
+    }
+
+    .animate-float {
+        animation: float 6s ease-in-out infinite;
+    }
+
+    .animate-float-slow {
+        animation: float-slow 8s ease-in-out infinite;
+    }
+
+    .animate-float-slower {
+        animation: float-slower 10s ease-in-out infinite;
+    }
+
+    .topology-line {
+        fill: none;
+        stroke-width: 2;
+        stroke-dasharray: 6;
+        animation: dash 20s linear infinite;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+    }
+
+    .data-flow-dot {
+        opacity: 0.8;
+        filter: blur(1px);
+    }
+
+    @keyframes dash {
+        to {
+            stroke-dashoffset: -1000;
+        }
+    }
+
+    .router-icon {
+        transition: all 0.3s ease;
+        filter: drop-shadow(0 0 8px rgba(100, 255, 218, 0.2));
+    }
+
+    .router-icon:hover {
+        filter: drop-shadow(0 0 12px rgba(100, 255, 218, 0.4));
+        transform: translateY(-2px);
+    }
+
+    .router-icon svg {
+        transform-style: preserve-3d;
+        perspective: 1000px;
+    }
+
+    .terminal-window.active {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    #contactForm {
+        transition: all 0.3s ease-out;
+    }
+
+    #contactForm.active {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    /* Update theme colors for the rest of the website */
+    .certification-card {
+        @apply bg-[#1B2B3A]/80 backdrop-blur-sm border border-[#2D4A5D] hover:border-[#64FFDA]/50 transition-all duration-300;
+    }
+
+    .feature-icon {
+        @apply bg-[#64FFDA]/10 text-[#64FFDA];
+    }
+
+    .section-heading {
+        @apply text-[#E6F1FF];
+    }
+
+    .section-text {
+        @apply text-[#8892B0];
+    }
+
+    /* Topology Styles */
+    .interface-label {
+        font-family: monospace;
+        font-size: 12px;
+        fill: #64FFDA;
+        opacity: 0.8;
+    }
+
+    /* Ensure SVG lines are crisp */
+    svg {
+        shape-rendering: geometricPrecision;
+    }
+
+    /* Terminal Window Styles */
+    .terminal-window {
+        position: absolute;
+        right: -30%;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 400px;
+        background: rgba(27, 43, 58, 0.9);
+        backdrop-filter: blur(8px);
+        border-radius: 0.75rem;
+        border: 1px solid #2D4A5D;
+        overflow: hidden;
+        opacity: 0;
+        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 50;
+    }
+
+    .terminal-window.active {
+        right: 0;
+        opacity: 1;
+    }
+
+    /* Update terminal animation styles */
+    .terminal-container {
+        perspective: 1000px;
+        transform-style: preserve-3d;
+        position: relative;
+        z-index: 10;
+    }
+
+    .typing-animation::after {
+        content: '|';
+        animation: blink 1s infinite;
+        color: #64FFDA;
+    }
+
+    @keyframes blink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0; }
+    }
+
+    .topology-line {
+        stroke-dasharray: 10;
+        animation: dash 20s linear infinite;
+        opacity: 0.6;
+    }
+
+    @keyframes dash {
+        to {
+            stroke-dashoffset: -1000;
+        }
+    }
+
+    /* Add terminal auto-start animation */
+    .terminal-container {
+        animation: terminalAppear 1s ease-out forwards;
+    }
+
+    @keyframes terminalAppear {
+        from {
+            opacity: 0;
+            transform: translateY(20px) rotateX(10deg);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0) rotateX(0);
+        }
+    }
+
+    .terminal-input {
+        background: transparent;
+        border: none;
+        color: #64FFDA;
+        font-family: monospace;
+        width: calc(100% - 220px);
+        padding: 0;
+        margin: 0;
+    }
+
+    .terminal-input:focus {
+        outline: none;
+        box-shadow: none;
+    }
+
+    /* Update terminal output styling */
+    .terminal-success {
+        background: linear-gradient(135deg, rgba(100, 255, 218, 0.1) 0%, rgba(72, 184, 160, 0.1) 100%);
+        border-left: 3px solid #64FFDA;
+        padding: 1rem;
+        margin: 1rem 0;
+        border-radius: 0.5rem;
+    }
+
+    /* Contact Form Modal */
+    .modal-backdrop {
+        background: rgba(10, 25, 47, 0.8);
+        backdrop-filter: blur(8px);
+    }
+
+    .modal-content {
+        background: linear-gradient(135deg, rgba(27, 43, 58, 0.95) 0%, rgba(17, 34, 64, 0.95) 100%);
+        border: 1px solid #2D4A5D;
+        transform: scale(0.95);
+        opacity: 0;
+        transition: all 0.3s ease-out;
+    }
+
+    .modal-content.active {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    /* Update the terminal output styles */
+    .registration-details {
+        background: linear-gradient(135deg, rgba(100, 255, 218, 0.1) 0%, rgba(72, 184, 160, 0.1) 100%);
+        border-left: 3px solid #64FFDA;
+        padding: 1rem;
+        margin: 1rem 0;
+        border-radius: 0.5rem;
+    }
+
+    /* Custom styles for intl-tel-input to match our theme */
+    .iti {
+        width: 100%;
+        display: block;
+    }
+    .iti__flag-container:hover .iti__selected-flag {
+        background-color: #233554;
+    }
+    .iti__selected-flag {
+        background-color: #1B2B3A;
+    }
+    .iti__country-list {
+        background-color: #1B2B3A;
+        border-color: #2D4A5D;
+        max-height: 200px;
+    }
+    .iti__country:hover {
+        background-color: #233554;
+    }
+    .iti__country {
+        color: #E6F1FF;
+    }
+    .iti__divider {
+        border-bottom-color: #2D4A5D;
+    }
+    /* Fix phone input padding to accommodate country code */
+    .iti input[type=tel] {
+        padding-left: 90px !important;
+    }
+    /* Ensure dropdown is above other elements */
+    .iti__country-list {
+        z-index: 999;
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+<script>
+    // Scroll to Top functionality
+    const scrollToTopBtn = document.getElementById('scrollToTop');
+    
+    window.addEventListener('scroll', () => {
+        if (window.pageYOffset > 300) {
+            scrollToTopBtn.style.opacity = '1';
+        } else {
+            scrollToTopBtn.style.opacity = '0';
+        }
+    });
+    
+    scrollToTopBtn.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+
+    // Initialize terminal variables
+    let isTerminalActive = false;
+    
+    // Terminal Registration Form Logic
+    const terminalContent = document.getElementById('terminalContent');
+    const typingElement = document.querySelector('.typing-animation');
+    const inputLine = document.querySelector('.terminal-input-line');
+    const terminalInput = document.querySelector('.terminal-input');
+    const terminalPrompt = document.querySelector('.terminal-prompt');
+    
+    let userData = {
+        fullName: '',
+        email: '',
+        phone: '',
+        interests: '',
+        isWhatsapp: false
+    };
+
+    const questions = [
+        {
+            prompt: 'user@deshmukhLab:~$ Please enter your full name:',
+            key: 'fullName',
+            validate: (value) => value.trim().length > 0,
+            error: 'Name cannot be empty. Please enter your full name.'
+        },
+        {
+            prompt: name => `${name.split(' ')[0].toLowerCase()}@deshmukhLab:~$ Please enter your email:`,
+            key: 'email',
+            validate: (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value),
+            error: 'Please enter a valid email address.'
+        },
+        {
+            prompt: name => `${name.split(' ')[0].toLowerCase()}@deshmukhLab:~$ Please enter your phone number:`,
+            key: 'phone',
+            validate: (value) => /^\d{10}$/.test(value),
+            error: 'Please enter a valid 10-digit phone number.'
+        },
+        {
+            prompt: name => `${name.split(' ')[0].toLowerCase()}@deshmukhLab:~$ Is this your WhatsApp number? (yes/no):`,
+            key: 'isWhatsapp',
+            validate: (value) => ['yes', 'no'].includes(value.toLowerCase()),
+            error: 'Please answer with yes or no.'
+        },
+        {
+            prompt: name => `${name.split(' ')[0].toLowerCase()}@deshmukhLab:~$ What certification are you interested in? (CCNA/CCNP/CCIE):`,
+            key: 'interests',
+            validate: (value) => ['ccna', 'ccnp', 'ccie'].includes(value.toLowerCase()),
+            error: 'Please choose CCNA, CCNP, or CCIE.'
+        }
+    ];
+
+    let currentQuestion = 0;
+
+    function addTerminalLine(text, isCommand = false) {
+        const line = document.createElement('div');
+        line.className = 'mb-2';
+        line.innerHTML = `<span class="text-[#64FFDA]">${text}</span>`;
+        terminalContent.insertBefore(line, inputLine);
+        terminalContent.scrollTop = terminalContent.scrollHeight;
+    }
+
+    function showNextQuestion() {
+        if (currentQuestion >= questions.length) {
+            // Form completed
+            const firstName = userData.fullName.split(' ')[0].toLowerCase();
+            const successMessage = document.createElement('div');
+            successMessage.className = 'registration-details';
+            successMessage.innerHTML = `
+                <div class="text-[#64FFDA] font-bold mb-2">${firstName}@deshmukhLab:~$ Thank you for registering! Our team will contact you soon.</div>
+                <div class="text-[#64FFDA] font-bold mt-4">Registration details:</div>
+                <div class="text-[#8892B0] mt-2">
+                    <div class="mb-1">Name: <span class="text-[#64FFDA]">${userData.fullName}</span></div>
+                    <div class="mb-1">Email: <span class="text-[#64FFDA]">${userData.email}</span></div>
+                    <div class="mb-1">Phone: <span class="text-[#64FFDA]">${userData.phone}</span> (${userData.isWhatsapp ? 'WhatsApp' : 'Not WhatsApp'})</div>
+                    <div>Interested in: <span class="text-[#64FFDA]">${userData.interests.toUpperCase()}</span></div>
+                </div>
+            `;
+            terminalContent.appendChild(successMessage);
+            inputLine.classList.add('hidden');
+            terminalContent.scrollTop = terminalContent.scrollHeight;
+            return;
+        }
+
+        const question = questions[currentQuestion];
+        const prompt = typeof question.prompt === 'function' 
+            ? question.prompt(userData.fullName || 'user') 
+            : question.prompt;
+        
+        terminalPrompt.textContent = prompt;
+        inputLine.classList.remove('hidden');
+        terminalInput.value = '';
+        terminalInput.focus();
+    }
+
+    function handleInput(e) {
+        if (e.key === 'Enter') {
+            const value = terminalInput.value.trim();
+            const question = questions[currentQuestion];
+            
+            // Validate input
+            if (!question.validate(value)) {
+                addTerminalLine(question.error, true);
+                return;
+            }
+
+            // Add the command to terminal history
+            addTerminalLine(`${terminalPrompt.textContent} ${value}`, true);
+
+            // Store the answer
+            if (question.key === 'isWhatsapp') {
+                userData[question.key] = value.toLowerCase() === 'yes';
+            } else {
+                userData[question.key] = value;
+            }
+
+            currentQuestion++;
+            showNextQuestion();
+        }
+    }
+
+    function startInteractiveTerminal() {
+        typingElement.classList.add('hidden');
+        inputLine.classList.remove('hidden');
+        terminalInput.addEventListener('keypress', handleInput);
+        showNextQuestion();
+    }
+
+    // Update terminal activation
+    function activateTerminal() {
+        if (!isTerminalActive) {
+            isTerminalActive = true;
+            
+            // Add highlight effect to terminal container
+            const terminalContainer = document.querySelector('.terminal-container');
+            terminalContainer.classList.add('ring-2', 'ring-[#64FFDA]/50');
+            
+            // Start the interactive terminal
+            startInteractiveTerminal();
+        }
+    }
+
+    // Add click handler to terminal container
+    const terminalContainer = document.querySelector('.terminal-container');
+    if (terminalContainer) {
+        terminalContainer.addEventListener('click', (e) => {
+            e.preventDefault();
+            activateTerminal();
+        });
+    }
+
+    function openContactForm() {
+        const modal = document.getElementById('contactModal');
+        const form = document.getElementById('contactForm');
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        setTimeout(() => {
+            form.classList.add('active');
+        }, 10);
+    }
+
+    function closeContactForm() {
+        const modal = document.getElementById('contactModal');
+        const form = document.getElementById('contactForm');
+        form.classList.remove('active');
+        setTimeout(() => {
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+        }, 300);
+    }
+
+    // Close modal when clicking outside
+    document.getElementById('contactModal').addEventListener('click', (e) => {
+        if (e.target.id === 'contactModal') {
+            closeContactForm();
+        }
+    });
+
+    function submitContactForm(event) {
+        event.preventDefault();
+        const form = event.target;
+        const formData = new FormData(form);
+        
+        // Validate phone number if provided
+        if (phoneInput.value) {
+            if (!iti.isValidNumber()) {
+                alert('Please enter a valid phone number');
+                return;
+            }
+        }
+        
+        const data = {
+            name: formData.get('name'),
+            email: formData.get('email'),
+            message: formData.get('message'),
+            phone: phoneInput.value ? iti.getNumber() : null,
+            country_code: phoneInput.value ? iti.getSelectedCountryData().dialCode : null
+        };
+        
+        fetch('/contact', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(result => {
+            if (result.error) {
+                throw new Error(result.error);
+            }
+            // Show success message
+            alert(result.message);
+            // Reset form and close modal
+            form.reset();
+            iti.setCountry("us"); // Reset phone input
+            closeContactForm();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert(error.message || 'An error occurred while submitting the form. Please try again.');
+        });
+    }
+
+    // Initialize phone input
+    const phoneInput = document.getElementById('phone');
+    const iti = window.intlTelInput(phoneInput, {
+        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+        separateDialCode: true,
+        initialCountry: "auto",
+        geoIpLookup: function(callback) {
+            fetch('https://ipapi.co/json')
+                .then(res => res.json())
+                .then(data => callback(data.country_code))
+                .catch(() => callback("US"));
+        }
+    });
+
+    // Update country code when changed
+    phoneInput.addEventListener('countrychange', function() {
+        document.getElementById('country_code').value = iti.getSelectedCountryData().dialCode;
+    });
+</script>
+{% endblock %}
+{% endblock content %} 
+>>>>>>> master

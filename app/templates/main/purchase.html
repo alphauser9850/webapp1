@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Purchase Hours{% endblock %}
+
+{% block content %}
+<h2>Purchase Lab Hours</h2>
+
+<div class="row mt-4">
+    {% for category in categories %}
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h3 class="card-title">{{ category.name }}</h3>
+                <p class="card-text">{{ category.description }}</p>
+                <p class="text-muted">
+                    <i class="fas fa-clock"></i> Rate: ${{ "%.2f"|format(category.hourly_rate) }}/hour
+                </p>
+                
+                <form method="POST" action="{{ url_for('main.process_payment') }}">
+                    <input type="hidden" name="category_id" value="{{ category.id }}">
+                    
+                    <div class="mb-3">
+                        <label for="amount_{{ category.id }}" class="form-label">Amount ($)</label>
+                        <input type="number" class="form-control" id="amount_{{ category.id }}" 
+                               name="amount" min="{{ category.hourly_rate }}" step="0.01" required>
+                        <div class="form-text">
+                            Minimum purchase: 1 hour (${{ "%.2f"|format(category.hourly_rate) }})
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="payment_method_{{ category.id }}" class="form-label">Payment Method</label>
+                        <select class="form-select" id="payment_method_{{ category.id }}" name="payment_method" required>
+                            <option value="visa">Visa</option>
+                            <option value="mastercard">Mastercard</option>
+                            <option value="paypal">PayPal</option>
+                            <option value="googlepay">Google Pay</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Purchase Hours</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h4>Payment Methods</h4>
+                <div class="text-center">
+                    <i class="fab fa-cc-visa payment-icon text-primary"></i>
+                    <i class="fab fa-cc-mastercard payment-icon text-danger"></i>
+                    <i class="fab fa-cc-paypal payment-icon text-info"></i>
+                    <i class="fab fa-google-pay payment-icon text-success"></i>
+                </div>
+                <p class="text-center mt-3">All payments are processed securely. Your card details are never stored on our servers.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

@@ -1,0 +1,474 @@
+<<<<<<< HEAD
+{% extends "base.html" %}
+
+{% block title %}Lab Environments{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3">
+            {% include 'admin/_sidebar.html' %}
+        </div>
+        <div class="col-md-9">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Create Lab Environment</h5>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{{ url_for('admin.create_server') }}">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Lab Name</label>
+                                    <input type="text" class="form-control" id="name" name="name" required>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="ip_address" class="form-label">Connection Address</label>
+                                    <input type="text" class="form-control" id="ip_address" name="ip_address" 
+                                           pattern="^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$" required>
+                                    <small class="text-muted">Address used to connect to the lab environment</small>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="category_id" class="form-label">Lab Type</label>
+                                    <select class="form-select" id="category_id" name="category_id" required>
+=======
+{% extends "admin/layout.html" %}
+
+{% block title %}Manage Servers{% endblock %}
+
+{% block page_title %}Manage Servers{% endblock %}
+
+{% block admin_content %}
+<div class="flex justify-between items-center mb-6">
+    <div class="flex items-center space-x-4">
+        <div class="relative">
+            <input type="text" id="searchInput" placeholder="Search servers..." 
+                   class="pl-10 pr-4 py-2 bg-[#1B2B3A] border border-[#2D4A5D] rounded-lg text-[#E6F1FF] placeholder-[#8892B0] focus:outline-none focus:border-[#64FFDA]">
+            <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-[#8892B0]"></i>
+        </div>
+        <select id="categoryFilter" class="px-4 py-2 bg-[#1B2B3A] border border-[#2D4A5D] rounded-lg text-[#E6F1FF] focus:outline-none focus:border-[#64FFDA]">
+            <option value="all">All Categories</option>
+>>>>>>> master
+                                        {% for category in categories %}
+                                        <option value="{{ category.id }}">{{ category.name }}</option>
+                                        {% endfor %}
+                                    </select>
+<<<<<<< HEAD
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-plus me-2"></i>Create Lab Environment
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Available Lab Environments</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead>
+                                <tr>
+                                    <th>Lab Name</th>
+                                    <th>Connection Address</th>
+                                    <th>Lab Type</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+=======
+        <select id="statusFilter" class="px-4 py-2 bg-[#1B2B3A] border border-[#2D4A5D] rounded-lg text-[#E6F1FF] focus:outline-none focus:border-[#64FFDA]">
+            <option value="all">All Status</option>
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+        </select>
+                                </div>
+    <button onclick="openAddServerModal()" 
+            class="px-4 py-2 bg-[#64FFDA] text-[#0A192F] rounded-lg hover:bg-[#64FFDA]/90 transition-colors">
+        <i class="fas fa-plus mr-2"></i>Add Server
+                        </button>
+            </div>
+
+<!-- Servers Table -->
+<div class="bg-[#1B2B3A]/80 backdrop-blur-sm rounded-xl border border-[#2D4A5D] overflow-hidden">
+    <div class="overflow-x-auto">
+        <table class="w-full">
+                            <thead>
+                <tr class="border-b border-[#2D4A5D] text-[#8892B0] text-sm">
+                    <th class="px-6 py-3 text-left">Name</th>
+                    <th class="px-6 py-3 text-left">Category</th>
+                    <th class="px-6 py-3 text-left">Connection Address</th>
+                    <th class="px-6 py-3 text-left">Status</th>
+                    <th class="px-6 py-3 text-left">Active Users</th>
+                    <th class="px-6 py-3 text-left">Actions</th>
+>>>>>>> master
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for server in servers %}
+<<<<<<< HEAD
+                                <tr>
+                                    <td>{{ server.name }}</td>
+                                    <td>{{ server.ip_address }}</td>
+                                    <td>{{ server.category.name }}</td>
+                                    <td>
+                                        {% if server.is_active %}
+                                        <span class="badge bg-success">Available</span>
+                                        {% else %}
+                                        <span class="badge bg-danger">Unavailable</span>
+                                        {% endif %}
+                                    </td>
+                                    <td class="text-end">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-sm btn-outline-primary" 
+                                                    data-bs-toggle="modal" 
+                                                    data-bs-target="#editServerModal{{ server.id }}">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <form action="{{ url_for('admin.copy_server', id=server.id) }}" method="POST" class="d-inline">
+                                                <button type="submit" class="btn btn-sm btn-outline-success" title="Copy Server">
+                                                    <i class="fas fa-copy"></i>
+                                                </button>
+                                            </form>
+                                            <form action="{{ url_for('admin.delete_server', id=server.id) }}" method="POST" class="d-inline">
+                                                <button type="submit" class="btn btn-sm btn-outline-danger" 
+                                                        onclick="return confirm('Are you sure you want to delete this server?')">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
+=======
+                <tr class="border-b border-[#2D4A5D] text-sm hover:bg-[#233554]/50 transition-colors">
+                    <td class="px-6 py-4 text-[#E6F1FF]">{{ server.name }}</td>
+                    <td class="px-6 py-4">
+                        <span class="px-2 py-1 text-xs rounded-full bg-blue-500/10 text-blue-400">
+                            {{ server.category.name }}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 text-[#E6F1FF]">{{ server.connection_address }}</td>
+                    <td class="px-6 py-4" id="server-{{ server.id }}-status">
+                        <span class="px-2 py-1 text-xs rounded-full {% if server.is_active %}bg-green-500/10 text-green-400{% else %}bg-red-500/10 text-red-400{% endif %}">
+                            {{ "Active" if server.is_active else "Inactive" }}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 text-[#E6F1FF]">
+                        <span class="flex items-center">
+                            <i class="fas fa-users text-[#64FFDA] mr-2"></i>
+                            {{ server.sessions|selectattr('end_time', 'none')|list|length }}
+                        </span>
+                                    </td>
+                    <td class="px-6 py-4">
+                        <div class="flex items-center space-x-3">
+                            <button onclick="openEditServerModal('{{ server.id }}')" class="text-[#64FFDA] hover:text-[#64FFDA]/80" title="Edit Server">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                            <button onclick="toggleServerStatus('{{ server.id }}')" class="text-[#64FFDA] hover:text-[#64FFDA]/80" title="{{ 'Deactivate' if server.is_active else 'Activate' }} Server">
+                                <i class="fas {% if server.is_active %}fa-toggle-on{% else %}fa-toggle-off{% endif %}"></i>
+                                                </button>
+                            <button onclick="deleteServer('{{ server.id }}')" class="text-red-400 hover:text-red-500" title="Delete Server">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+>>>>>>> master
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+<<<<<<< HEAD
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block extra_css %}
+<style>
+.card {
+    transition: transform 0.2s;
+}
+.card:hover {
+    transform: translateY(-5px);
+}
+</style>
+{% endblock %}
+
+<!-- All Modals -->
+{% for server in servers %}
+<!-- Edit Modal -->
+<div class="modal fade" id="editModal{{ server.id }}" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Lab Environment</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="POST" action="{{ url_for('admin.edit_server', id=server.id) }}">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="edit_name{{ server.id }}" class="form-label">Lab Name</label>
+                        <input type="text" class="form-control" id="edit_name{{ server.id }}" 
+                               name="name" value="{{ server.name }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit_ip{{ server.id }}" class="form-label">Connection Address</label>
+                        <input type="text" class="form-control" id="edit_ip{{ server.id }}" 
+                               name="ip_address" value="{{ server.ip_address }}"
+                               pattern="^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$" required>
+                        <small class="text-muted">Address used to connect to the lab environment</small>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit_category{{ server.id }}" class="form-label">Lab Type</label>
+                        <select class="form-select" id="edit_category{{ server.id }}" 
+                                name="category_id" required>
+                            {% for category in categories %}
+                            <option value="{{ category.id }}" 
+                                    {% if category.id == server.category_id %}selected{% endif %}>
+                                {{ category.name }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" 
+                                   id="edit_active{{ server.id }}" name="is_active" value="true"
+                                   {% if server.is_active %}checked{% endif %}>
+                            <label class="form-check-label" for="edit_active{{ server.id }}">
+                                Available for Use
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-times me-2"></i>Cancel
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save me-2"></i>Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+=======
+    </div>
+</div>
+
+<!-- Add/Edit Server Modal -->
+<div class="fixed inset-0 z-50 hidden" id="serverModal">
+    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md">
+        <div class="bg-[#1B2B3A] rounded-xl border border-[#2D4A5D] shadow-xl">
+            <div class="p-6">
+                <h3 class="text-lg font-semibold text-[#E6F1FF] mb-4" id="modalTitle">Add Server</h3>
+                <form id="serverForm" class="space-y-4">
+                    {{ form.csrf_token }}
+                    <input type="hidden" name="server_id" id="serverId">
+                    <div>
+                        <label for="name" class="block text-sm font-medium text-[#E6F1FF] mb-2">Name</label>
+                        <input type="text" id="name" name="name" required placeholder="e.g. Lab Server 1"
+                               class="w-full px-4 py-2 bg-[#233554] border border-[#2D4A5D] rounded-lg text-[#E6F1FF] focus:outline-none focus:border-[#64FFDA]">
+                    </div>
+                    <div>
+                        <label for="category_id" class="block text-sm font-medium text-[#E6F1FF] mb-2">Category</label>
+                        <select id="category_id" name="category_id" required 
+                                class="w-full px-4 py-2 bg-[#233554] border border-[#2D4A5D] rounded-lg text-[#E6F1FF] focus:outline-none focus:border-[#64FFDA]">
+                            {% for category in categories %}
+                            <option value="{{ category.id }}">{{ category.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div>
+                        <label for="connection_address" class="block text-sm font-medium text-[#E6F1FF] mb-2">Connection Address</label>
+                        <input type="text" id="connection_address" name="connection_address" required 
+                               placeholder="e.g. lab1.deshmukhsystems.cloud"
+                               class="w-full px-4 py-2 bg-[#233554] border border-[#2D4A5D] rounded-lg text-[#E6F1FF] focus:outline-none focus:border-[#64FFDA]">
+                        <p class="text-sm text-[#E6F1FF] mt-1">Fully Qualified Domain Name for accessing the server</p>
+                    </div>
+                </form>
+                </div>
+            <div class="flex justify-end space-x-3 px-6 py-4 bg-[#233554]/50 rounded-b-xl">
+                <button onclick="closeModal('serverModal')" 
+                        class="px-4 py-2 text-[#E6F1FF] hover:text-[#64FFDA] transition-colors">
+                    Cancel
+                    </button>
+                <button onclick="submitServerForm(event)"
+                        class="px-4 py-2 bg-[#64FFDA] text-[#0A192F] rounded-lg hover:bg-[#64FFDA]/90 transition-colors">
+                    Save
+                    </button>
+                </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Get CSRF token from meta tag
+const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+function openAddServerModal() {
+    document.getElementById('modalTitle').textContent = 'Add Server';
+    document.getElementById('serverForm').reset();
+    document.getElementById('serverModal').classList.remove('hidden');
+}
+
+function closeModal(modalId) {
+    document.getElementById(modalId).classList.add('hidden');
+}
+
+function openEditServerModal(serverId) {
+    fetch(`/admin/servers/${serverId}`)
+        .then(response => response.json())
+        .then(server => {
+            document.getElementById('modalTitle').textContent = 'Edit Server';
+            document.getElementById('serverId').value = server.id;
+            document.getElementById('name').value = server.name;
+            document.getElementById('category_id').value = server.category_id;
+            document.getElementById('connection_address').value = server.connection_address;
+            document.getElementById('serverModal').classList.remove('hidden');
+        });
+}
+
+function submitServerForm(event) {
+    event.preventDefault();
+    const form = document.getElementById('serverForm');
+    const formData = new FormData(form);
+    
+    // Create data object from form
+    const data = {
+        name: formData.get('name'),
+        connection_address: formData.get('connection_address'),
+        category_id: parseInt(formData.get('category_id'))
+    };
+    
+    // Get server ID if it exists (for edit mode)
+    const serverId = formData.get('server_id');
+    
+    // Validate FQDN format
+    const fqdnRegex = /^(?!:\/\/)(?=.{1,255}$)((.{1,63}\.){1,127}(?![0-9]*$)[a-z0-9-]+\.?)$/i;
+    if (!fqdnRegex.test(data.connection_address)) {
+        showNotification('Please enter a valid FQDN (e.g. lab1.deshmukhsystems.cloud)', 'error');
+        return;
+    }
+    
+    const url = serverId ? `/admin/servers/${serverId}/edit` : '/admin/servers/create';
+    const method = serverId ? 'PUT' : 'POST';
+    
+    fetch(url, {
+        method: method,
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.error) {
+            showNotification(result.error, 'error');
+        } else {
+            showNotification(result.message, 'success');
+            closeModal('serverModal');
+            window.location.reload();
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showNotification('Error saving server. Please try again.', 'error');
+    });
+}
+
+function toggleServerStatus(serverId) {
+    if (confirm('Are you sure you want to toggle this server\'s status?')) {
+        fetch(`/admin/servers/${serverId}/toggle-status`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                showNotification(data.error, 'error');
+            } else {
+                showNotification(data.message, 'success');
+                window.location.reload();
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showNotification('An error occurred while toggling server status', 'error');
+        });
+    }
+}
+
+function deleteServer(serverId) {
+    if (confirm('Are you sure you want to delete this server? This will also remove all user assignments to this server.')) {
+        fetch(`/admin/servers/${serverId}`, {
+            method: 'DELETE',
+            headers: {
+                'X-CSRFToken': csrfToken
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                location.reload();
+            } else {
+                alert('Error deleting server');
+            }
+        });
+    }
+}
+
+function filterTable() {
+    const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+    const categoryValue = document.getElementById('categoryFilter').value;
+    const statusValue = document.getElementById('statusFilter').value;
+    
+    const rows = document.querySelectorAll('tbody tr');
+    rows.forEach(row => {
+        const name = row.cells[0].textContent.toLowerCase();
+        const category = row.cells[1].textContent.trim();
+        const status = row.cells[3].textContent.trim().toLowerCase();
+        
+        const matchesSearch = name.includes(searchTerm);
+        const matchesCategory = categoryValue === 'all' || row.cells[1].querySelector('span').textContent.trim() === category;
+        const matchesStatus = statusValue === 'all' || status === statusValue;
+        
+        row.style.display = matchesSearch && matchesCategory && matchesStatus ? '' : 'none';
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('searchInput');
+    const categoryFilter = document.getElementById('categoryFilter');
+    const statusFilter = document.getElementById('statusFilter');
+    
+    searchInput.addEventListener('input', filterTable);
+    categoryFilter.addEventListener('change', filterTable);
+    statusFilter.addEventListener('change', filterTable);
+});
+
+// Add this function if it doesn't exist
+function showNotification(message, type = 'success') {
+    const toast = document.createElement('div');
+    toast.className = `fixed bottom-4 right-4 px-6 py-3 rounded-lg text-white ${type === 'success' ? 'bg-green-500' : 'bg-red-500'} shadow-lg z-50`;
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 3000);
+}
+</script>
+>>>>>>> master
+{% endblock %} 

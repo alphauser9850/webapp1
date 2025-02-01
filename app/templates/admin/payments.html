@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block title %}Payment History{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-3">
+        <div class="list-group">
+            <a href="{{ url_for('admin.admin_dashboard') }}" class="list-group-item list-group-item-action">
+                <i class="fas fa-tachometer-alt"></i> Dashboard
+            </a>
+            <a href="{{ url_for('admin.manage_categories') }}" class="list-group-item list-group-item-action">
+                <i class="fas fa-list"></i> Categories
+            </a>
+            <a href="{{ url_for('admin.manage_servers') }}" class="list-group-item list-group-item-action">
+                <i class="fas fa-server"></i> Servers
+            </a>
+            <a href="{{ url_for('admin.manage_users') }}" class="list-group-item list-group-item-action">
+                <i class="fas fa-users"></i> Users
+            </a>
+            <a href="{{ url_for('admin.view_payments') }}" class="list-group-item list-group-item-action active">
+                <i class="fas fa-money-bill"></i> Payments
+            </a>
+        </div>
+    </div>
+    
+    <div class="col-md-9">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Payment Statistics</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card bg-success text-white">
+                            <div class="card-body">
+                                <h6 class="card-title">Total Revenue</h6>
+                                <p class="card-text h2">
+                                    ${{ "%.2f"|format(payments|sum(attribute='amount')) }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card bg-primary text-white">
+                            <div class="card-body">
+                                <h6 class="card-title">Total Hours Sold</h6>
+                                <p class="card-text h2">
+                                    {{ "%.1f"|format(payments|sum(attribute='hours_purchased')) }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card bg-info text-white">
+                            <div class="card-body">
+                                <h6 class="card-title">Total Transactions</h6>
+                                <p class="card-text h2">{{ payments|length }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Payment History</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Transaction ID</th>
+                                <th>User</th>
+                                <th>Amount</th>
+                                <th>Hours</th>
+                                <th>Method</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for payment in payments %}
+                            <tr>
+                                <td>{{ payment.transaction_id }}</td>
+                                <td>{{ payment.user.username }}</td>
+                                <td>${{ "%.2f"|format(payment.amount) }}</td>
+                                <td>{{ "%.1f"|format(payment.hours_purchased) }}</td>
+                                <td>
+                                    {% if payment.payment_method == 'visa' %}
+                                        <i class="fab fa-cc-visa text-primary"></i>
+                                    {% elif payment.payment_method == 'mastercard' %}
+                                        <i class="fab fa-cc-mastercard text-danger"></i>
+                                    {% elif payment.payment_method == 'paypal' %}
+                                        <i class="fab fa-paypal text-info"></i>
+                                    {% elif payment.payment_method == 'googlepay' %}
+                                        <i class="fab fa-google-pay text-success"></i>
+                                    {% endif %}
+                                    {{ payment.payment_method|title }}
+                                </td>
+                                <td>
+                                    {% if payment.status == 'completed' %}
+                                        <span class="badge bg-success">Completed</span>
+                                    {% elif payment.status == 'pending' %}
+                                        <span class="badge bg-warning">Pending</span>
+                                    {% else %}
+                                        <span class="badge bg-danger">Failed</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ payment.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

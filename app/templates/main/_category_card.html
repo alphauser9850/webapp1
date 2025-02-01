@@ -1,0 +1,27 @@
+<div class="card mb-4 hover-shadow">
+    <div class="card-body">
+        <div class="d-flex justify-content-between align-items-start mb-3">
+            <div>
+                <h5 class="mb-1">{{ category.name }}</h5>
+                <p class="text-muted mb-0">{{ category.description }}</p>
+            </div>
+            <span class="badge bg-{{ category.level|lower }}-subtle text-{{ category.level|lower }}">
+                Level: {{ category.level }}
+            </span>
+        </div>
+        <div class="d-flex align-items-center">
+            <span class="badge {% if category.user_server_count > 0 %}bg-success{% else %}bg-secondary{% endif %} me-2">
+                {{ category.user_server_count }} Assigned Server{{ 's' if category.user_server_count != 1 }}
+            </span>
+            {% if category.user_server_count > 0 %}
+                <a href="{{ url_for('main.category_servers', id=category.id) }}" class="btn btn-primary btn-sm">
+                    <i class="fas fa-server me-2"></i>View Servers
+                </a>
+            {% else %}
+                <button class="btn btn-secondary btn-sm" disabled>
+                    <i class="fas fa-lock me-2"></i>No Access
+                </button>
+            {% endif %}
+        </div>
+    </div>
+</div> 

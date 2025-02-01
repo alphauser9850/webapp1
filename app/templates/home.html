@@ -1,0 +1,201 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5">
+    <!-- Hero Section -->
+    <div class="text-center mb-5">
+        <h1 class="display-4 mb-3">Welcome to Deshmukh Systems Lab</h1>
+        <p class="lead text-muted">Your gateway to hands-on networking experience with CCNA, CCNP, and CCIE labs.</p>
+    </div>
+
+    <!-- Documentation Section -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <h2 class="h3 mb-4">Getting Started Guide</h2>
+                    
+                    <!-- Quick Start Steps -->
+                    <div class="mb-4">
+                        <h3 class="h5 mb-3">Quick Start</h3>
+                        <div class="row g-4">
+                            <div class="col-md-4">
+                                <div class="d-flex">
+                                    <div class="me-3">
+                                        <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;">1</div>
+                                    </div>
+                                    <div>
+                                        <h4 class="h6 mb-2">Create Account</h4>
+                                        <p class="small text-muted mb-0">Sign up with your email to get started</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="d-flex">
+                                    <div class="me-3">
+                                        <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;">2</div>
+                                    </div>
+                                    <div>
+                                        <h4 class="h6 mb-2">Choose Lab</h4>
+                                        <p class="small text-muted mb-0">Select from CCNA, CCNP, or CCIE labs</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="d-flex">
+                                    <div class="me-3">
+                                        <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;">3</div>
+                                    </div>
+                                    <div>
+                                        <h4 class="h6 mb-2">Start Learning</h4>
+                                        <p class="small text-muted mb-0">Access labs through our web interface</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Key Features -->
+                    <div class="mb-4">
+                        <h3 class="h5 mb-3">Key Features</h3>
+                        <div class="row g-4">
+                            <div class="col-md-4">
+                                <div class="card h-100 border-0 bg-light">
+                                    <div class="card-body">
+                                        <h4 class="h6 mb-2"><i class="fas fa-desktop text-primary me-2"></i>Remote Access</h4>
+                                        <p class="small text-muted mb-0">Access labs from anywhere using our secure web-based interface. No additional software required.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card h-100 border-0 bg-light">
+                                    <div class="card-body">
+                                        <h4 class="h6 mb-2"><i class="fas fa-headset text-primary me-2"></i>Support System</h4>
+                                        <p class="small text-muted mb-0">Get help through our integrated ticket system. Our experts are ready to assist you.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card h-100 border-0 bg-light">
+                                    <div class="card-body">
+                                        <h4 class="h6 mb-2"><i class="fas fa-clock text-primary me-2"></i>Lab Hours</h4>
+                                        <p class="small text-muted mb-0">Access labs during our operating hours: 6 AM IST to 1 AM PST.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FAQ -->
+                    <div>
+                        <h3 class="h5 mb-3">Frequently Asked Questions</h3>
+                        <div class="accordion" id="faqAccordion">
+                            <div class="accordion-item border-0 mb-2">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                        How do I start a lab session?
+                                    </button>
+                                </h2>
+                                <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body">
+                                        After logging in, navigate to your dashboard, select a lab category, and click "Start Session" on your chosen lab environment. You'll get immediate access through our web interface.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item border-0 mb-2">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                        What happens if I lose connection?
+                                    </button>
+                                </h2>
+                                <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body">
+                                        Your lab session is preserved for a short period. Simply reconnect and continue where you left off. If issues persist, our support team is available to help.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item border-0">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                        How do I get technical support?
+                                    </button>
+                                </h2>
+                                <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body">
+                                        Use our integrated ticket system to reach our support team. Click the "Support" link in the navigation menu to create a ticket. We typically respond within 24 hours during our operating hours (6 AM IST to 1 AM PST).
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lab Categories -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <div class="mb-3">
+                        <i class="fas fa-graduation-cap text-primary" style="font-size: 2.5rem;"></i>
+                    </div>
+                    <h3 class="h4 mb-3">CCNA Labs</h3>
+                    <p class="text-muted mb-0">Perfect for beginners starting their networking journey. Access basic networking concepts and configurations.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <div class="mb-3">
+                        <i class="fas fa-network-wired text-success" style="font-size: 2.5rem;"></i>
+                    </div>
+                    <h3 class="h4 mb-3">CCNP Labs</h3>
+                    <p class="text-muted mb-0">Advanced networking scenarios for professionals looking to enhance their skills.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <div class="mb-3">
+                        <i class="fas fa-server text-danger" style="font-size: 2.5rem;"></i>
+                    </div>
+                    <h3 class="h4 mb-3">CCIE Labs</h3>
+                    <p class="text-muted mb-0">Expert-level labs for those preparing for the prestigious CCIE certification.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="row g-4">
+        <!-- Why Choose Us -->
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <h2 class="h3 mb-4">Why Choose Us?</h2>
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="fas fa-check-circle text-success me-3"></i>
+                        <span>Real-world networking scenarios</span>
+                    </div>
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="fas fa-check-circle text-success me-3"></i>
+                        <span>Available from 6 AM IST to 1 AM PST</span>
+                    </div>
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="fas fa-check-circle text-success me-3"></i>
+                        <span>Expert technical support</span>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-check-circle text-success me-3"></i>
+                        <span>Comprehensive lab environments</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

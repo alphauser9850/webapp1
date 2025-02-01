@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Available Servers</h2>
+    
+    <div class="row">
+        {% for server in servers %}
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">{{ server.name }}</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">{{ server.category.description }}</p>
+                    
+                    {% if server.labs %}
+                    <h6 class="mt-3">Available Labs:</h6>
+                    <div class="list-group">
+                        {% for lab in server.labs %}
+                        <a href="{{ url_for('labs.start_lab_session', server_id=server.id, lab_id=lab.id) }}" 
+                           class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1">{{ lab.name }}</h6>
+                            </div>
+                            <p class="mb-1">{{ lab.description }}</p>
+                        </a>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <p class="text-muted">No labs available for this server.</p>
+                    {% endif %}
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">Category: {{ server.category.name }}</small>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %} 

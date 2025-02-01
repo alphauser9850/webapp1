@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  webapp:
+    build: .
+    command: gunicorn --config gunicorn_docker.py wsgi:app
+    volumes:
+      - .:/app
+      - webapp_logs:/var/log/webapp1
+    environment:
+      - FLASK_APP=wsgi.py
+      - FLASK_ENV=production
+      - DATABASE_URL=mysql://webapp:webapp@db:3306/webapp1
+      # Add other environment variables as needed
+    depends_on:
+      - db
+    networks:
+      - webapp_network
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"  # For SSL
+    volumes:
+      - ./nginx.docker.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./app/static:/app/app/static:ro
+      - nginx_logs:/var/log/nginx
+      # - ./ssl:/etc/nginx/ssl:ro  # Uncomment for SSL
+    depends_on:
+      - webapp
+    networks:
+      - webapp_network
+    restart: unless-stopped
+
+  db:
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - mysql_data:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=webapp1
+      - MYSQL_USER=webapp
+      - MYSQL_PASSWORD=webapp
+      - MYSQL_ROOT_PASSWORD=rootpassword
+    ports:
+      - "3306:3306"
+    networks:
+      - webapp_network
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
+  webapp_logs:
+  nginx_logs:
+
+networks:
+  webapp_network:
+    driver: bridge 

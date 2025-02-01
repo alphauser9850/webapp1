@@ -1,0 +1,194 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-3">
+            {% include 'admin/_sidebar.html' %}
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-md-9">
+            <!-- Statistics Cards -->
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <a href="{{ url_for('admin.manage_users') }}" class="text-decoration-none">
+                        <div class="card bg-primary text-white h-100">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="text-uppercase mb-2">Total Users</h6>
+                                        <div class="d-flex align-items-center">
+                                            <h2 class="mb-0" id="total_users">{{ total_users }}</h2>
+                                        </div>
+                                    </div>
+                                    <i class="fas fa-users fa-2x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-4">
+                    <div class="card bg-success text-white h-100">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="text-uppercase mb-2">Active Users</h6>
+                                    <div class="d-flex align-items-center">
+                                        <h2 class="mb-0" id="active_users">{{ active_users }}</h2>
+                                    </div>
+                                </div>
+                                <i class="fas fa-user-check fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card bg-info text-white h-100">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="text-uppercase mb-2">Active Sessions</h6>
+                                    <div class="d-flex align-items-center">
+                                        <h2 class="mb-0" id="active_sessions">{{ active_sessions }}</h2>
+                                    </div>
+                                </div>
+                                <i class="fas fa-desktop fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Sessions -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header bg-white">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-history me-2 text-primary"></i>
+                                    Recent Sessions
+                                </h5>
+                                <small class="text-muted">Last updated: <span id="last-updated">{{ current_time.strftime('%H:%M:%S') }}</span></small>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>User</th>
+                                            <th>Server</th>
+                                            <th>Category</th>
+                                            <th>Duration</th>
+                                            <th>Start Time</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="recent-sessions">
+                                        {% for session in recent_sessions %}
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="avatar avatar-sm bg-primary text-white rounded-circle me-2">
+                                                        {{ session.user.username[:2].upper() }}
+                                                    </div>
+                                                    {{ session.user.username }}
+                                                </div>
+                                            </td>
+                                            <td>{{ session.server.name }}</td>
+                                            <td>{{ session.server.category.name }}</td>
+                                            <td>
+                                                {% if session.end_time %}
+                                                    {{ "%.1f"|format(session.duration) }} hours
+                                                {% else %}
+                                                    Active
+                                                {% endif %}
+                                            </td>
+                                            <td>{{ session.start_time.strftime('%Y-%m-%d %H:%M') }}</td>
+                                            <td>
+                                                {% if not session.end_time and session.is_active %}
+                                                    <span class="badge bg-success">Active</span>
+                                                {% else %}
+                                                    <span class="badge bg-secondary">Completed</span>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Initialize tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+
+    // Function to update dashboard stats
+    function updateDashboardStats() {
+        fetch('/admin/dashboard/stats')
+            .then(response => response.json())
+            .then(data => {
+                // Update counters
+                document.getElementById('total_users').textContent = data.total_users;
+                document.getElementById('active_users').textContent = data.active_users;
+                document.getElementById('active_sessions').textContent = data.active_sessions;
+                
+                // Update last updated time
+                document.getElementById('last-updated').textContent = new Date(data.current_time).toLocaleTimeString();
+                
+                // Update recent sessions
+                const recentSessions = document.getElementById('recent-sessions');
+                recentSessions.innerHTML = data.recent_sessions.map(session => `
+                    <tr>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <div class="avatar avatar-sm bg-primary text-white rounded-circle me-2">
+                                    ${session.user_initials}
+                                </div>
+                                ${session.username}
+                            </div>
+                        </td>
+                        <td>${session.server_name}</td>
+                        <td>${session.category_name}</td>
+                        <td>${session.duration} hours</td>
+                        <td>${session.start_time}</td>
+                        <td>
+                            <span class="badge ${session.is_active ? 'bg-success' : 'bg-secondary'}">
+                                ${session.is_active ? 'Active' : 'Completed'}
+                            </span>
+                        </td>
+                    </tr>
+                `).join('');
+                
+                // Reinitialize tooltips
+                var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+                var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                    return new bootstrap.Tooltip(tooltipTriggerEl)
+                })
+            })
+            .catch(error => console.error('Error updating dashboard stats:', error));
+    }
+
+    // Update stats every 30 seconds
+    setInterval(updateDashboardStats, 30000);
+
+    // Initial update
+    updateDashboardStats();
+</script>
+{% endblock %} 
